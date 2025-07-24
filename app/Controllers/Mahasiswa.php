@@ -50,7 +50,7 @@ class Mahasiswa extends ResourceController
      */
     public function show($id = null)
     {
-        //
+        return $this->respond(null,501,'failed');
     }
 
     /**
@@ -60,7 +60,7 @@ class Mahasiswa extends ResourceController
      */
     public function new()
     {
-        //
+        return $this->respond(null,501,'failed');
     }
 
     /**
@@ -75,6 +75,20 @@ class Mahasiswa extends ResourceController
         $mahasiswa = new MahasiswaModel();
 
         //data validation
+        $rules = [
+            'nama' =>'required',
+            'nim' => 'required',
+            'jenis_kelamin' => 'required',
+            'tempat_lahir' => 'required',
+            'tanggal_lahir' => 'required|valid_date',
+            'sks' => 'required|decimal',
+            'ipk' => 'required|decimal',
+            'prodi' => 'required',
+            'lama_studi' => 'required|decimal',
+            'tanggal_bayar' => 'required|valid_date',
+            'biaya' => 'required'
+        ];
+
         $data = [
             'id' => uuid(),
             'nama' =>'',
@@ -92,6 +106,10 @@ class Mahasiswa extends ResourceController
             'updated_at' => $time
         ];
 
+        if (!$this->validateData($data, $rules)) {
+            return $this->respond(null, 400, 'Bad Request');
+        }
+
         //insert data
         $mahasiswa->save($data);
         return $this->respond(null,201,'success');
@@ -106,7 +124,7 @@ class Mahasiswa extends ResourceController
      */
     public function edit($id = null)
     {
-        //
+        return $this->respond(null,501,'failed');
     }
 
     /**
@@ -118,7 +136,7 @@ class Mahasiswa extends ResourceController
      */
     public function update($id = null)
     {
-        //
+        return $this->respond(null,501,'failed');
     }
 
     /**
@@ -130,6 +148,6 @@ class Mahasiswa extends ResourceController
      */
     public function delete($id = null)
     {
-        //
+        return $this->respond(null,501,'failed');
     }
 }
