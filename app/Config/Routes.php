@@ -28,6 +28,8 @@ $routes->get('/', 'Home::index');
 $routes->resource('mahasiswa');
 
 $routes->get('/data', 'Mahasiswa::export');
+
+$routes->get('/import', 'Mahasiswa::import');
  
 /*
  * --------------------------------------------------------------------

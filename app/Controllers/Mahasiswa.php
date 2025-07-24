@@ -21,6 +21,10 @@ class Mahasiswa extends ResourceController
         return $this->respond($data, 200, 'success');
     }
 
+    /**
+     * Summary of export
+     * @return never
+     */
     public function export() {
         helper('excel_helper');
         $file_name = 'data.xlsx';
@@ -38,6 +42,12 @@ class Mahasiswa extends ResourceController
 		flush();
 		readfile($file_name);
 		exit;
+    }
+
+    public function import(){
+        helper('excel_helper');
+        $data = import_excel('C:\Users\ozann\OneDrive\Desktop\PKL\app-pelepasan-mhs\data.xlsx');
+        return $this->respond($data,200, 'success');
     }
 
     /**
