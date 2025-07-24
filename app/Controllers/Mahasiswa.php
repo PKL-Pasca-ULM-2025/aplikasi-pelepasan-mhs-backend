@@ -9,6 +9,7 @@ use App\Models\MahasiswaModel;
 
 class Mahasiswa extends ResourceController
 {
+    protected $format = 'json';
     /**
      * Return an array of resource objects, themselves in array format.
      *
@@ -89,19 +90,21 @@ class Mahasiswa extends ResourceController
             'biaya' => 'required'
         ];
 
+        $input = $this->request->getJSON();
+
         $data = [
             'id' => uuid(),
-            'nama' =>'',
-            'nim' => '',
-            'jenis_kelamin' => '',
-            'tempat_lahir' => '',
-            'tanggal_lahir' => '',
-            'sks' => '',
-            'ipk' => '',
-            'prodi' => '',
-            'lama_studi' => '',
-            'tanggal_bayar' => '',
-            'biaya' => '',
+            'nama' => $input->nama,
+            'nim' => $input->nim,
+            'jenis_kelamin' => $input->jenis_kelamin,
+            'tempat_lahir' => $input->tempat_lahir,
+            'tanggal_lahir' => $input->tanggal_lahir,
+            'sks' => $input->sks,
+            'ipk' => $input->ipk,
+            'prodi' => $input->prodi,
+            'lama_studi' => $input->lama_studi,
+            'tanggal_bayar' => $input->tanggal_bayar,
+            'biaya' => $input->biaya,
             'created_at' => $time,
             'updated_at' => $time
         ];
@@ -112,7 +115,7 @@ class Mahasiswa extends ResourceController
 
         //insert data
         $mahasiswa->save($data);
-        return $this->respond(null,201,'success');
+        return $this->respond(null,201, 'success');
     }
 
     /**

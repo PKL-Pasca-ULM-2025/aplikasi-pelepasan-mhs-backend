@@ -8,11 +8,11 @@ class MahasiswaModel extends Model
 {
     protected $table            = 'mahasiswa';
     protected $primaryKey       = 'id';
-    protected $useAutoIncrement = true;
+    protected $useAutoIncrement = false;
     protected $returnType       = 'array';
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
-    protected $allowedFields    = ['nama', 'nim', 'jenis_kelamin', 'tempat_lahir', 'tanggal_lahir', 'sks', 'ipk', 'prodi', 'lama_studi', 'tanggal_bayar', 'biaya'];
+    protected $allowedFields    = ['nama', 'nim', 'jenis_kelamin', 'tempat_lahir', 'tanggal_lahir', 'sks', 'ipk', 'prodi', 'lama_studi', 'tanggal_bayar', 'biaya', 'created_at', 'updated_at', 'deleted_at'];
 
     protected bool $allowEmptyInserts = false;
     protected bool $updateOnlyChanged = true;

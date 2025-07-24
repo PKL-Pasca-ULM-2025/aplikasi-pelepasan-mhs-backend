@@ -1,5 +1,5 @@
 <?php
 
 function uuid() : string {
-    return random_bytes(64);
+    return bin2hex(random_bytes(16));
 }
