@@ -3,6 +3,7 @@
 namespace App\Controllers;
 
 use CodeIgniter\HTTP\ResponseInterface;
+use CodeIgniter\I18n\Time;
 use CodeIgniter\RESTful\ResourceController;
 use App\Models\MahasiswaModel;
 
@@ -69,7 +70,31 @@ class Mahasiswa extends ResourceController
      */
     public function create()
     {
-        //
+        helper('uuid');
+        $time = Time::now('utc');
+        $mahasiswa = new MahasiswaModel();
+
+        //data validation
+        $data = [
+            'id' => uuid(),
+            'nama' =>'',
+            'nim' => '',
+            'jenis_kelamin' => '',
+            'tempat_lahir' => '',
+            'tanggal_lahir' => '',
+            'sks' => '',
+            'ipk' => '',
+            'prodi' => '',
+            'lama_studi' => '',
+            'tanggal_bayar' => '',
+            'biaya' => '',
+            'created_at' => $time,
+            'updated_at' => $time
+        ];
+
+        //insert data
+        $mahasiswa->save($data);
+        return $this->respond(null,201,'success');
     }
 
     /**
