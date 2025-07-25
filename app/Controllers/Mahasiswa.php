@@ -156,4 +156,18 @@ class Mahasiswa extends ResourceController
     {
         return $this->respond(null,501,'failed');
     }
+
+    public function validate_status($id)
+    {
+        $mahasiswa = new MahasiswaModel();
+        $time = Time::now('utc');
+        $data = $mahasiswa->find($id);
+        if (!$data){
+            return $this->respond(null, 404, 'Mahasiswa not found');
+        }
+        $data['status_validasi'] = true;
+        $data['updated_at'] = $time;
+        $mahasiswa->save($data);
+        return $this->respond(null, 200, 'Status updated successfully');
+    }
 }
