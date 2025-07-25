@@ -27,6 +27,8 @@ class MahasiswaSeeder extends Seeder
                 'lama_studi' => $faker->numberBetween(2,4),
                 'tanggal_bayar' => $faker->date(),
                 'biaya' => 500000,
+                'bukti_pembayaran_url' => $faker->url(),
+                'status_validasi' => $faker->boolean(),
                 'created_at' => $time,
                 'updated_at' => $time
 

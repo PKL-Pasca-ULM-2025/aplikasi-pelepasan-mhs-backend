@@ -57,6 +57,14 @@ class AddProject extends Migration
                 'type' => 'INT',
                 'constraint' => 255
             ],
+            'bukti_pembayaran_url' => [
+                'type' => 'VARCHAR',
+                'constraint' => 255
+            ],
+            'status_validasi' => [
+                'type' => 'BOOLEAN',
+                'default' => false
+            ],
             'created_at' => [
                 'type' => 'TIMESTAMP',
                 'null' => true

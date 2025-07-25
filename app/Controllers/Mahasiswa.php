@@ -87,7 +87,8 @@ class Mahasiswa extends ResourceController
             'prodi' => 'required',
             'lama_studi' => 'required|decimal',
             'tanggal_bayar' => 'required|valid_date',
-            'biaya' => 'required'
+            'biaya' => 'required',
+            'bukti_pembayaran_url' => 'required|valid_url'
         ];
 
         $input = $this->request->getJSON();
@@ -105,6 +106,8 @@ class Mahasiswa extends ResourceController
             'lama_studi' => $input->lama_studi,
             'tanggal_bayar' => $input->tanggal_bayar,
             'biaya' => $input->biaya,
+            'bukti_pembayaran_url' => $input->bukti_pembayaran_url,
+            'status_validasi' => false,
             'created_at' => $time,
             'updated_at' => $time
         ];
