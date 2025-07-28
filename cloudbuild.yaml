@@ -24,17 +24,17 @@ options:
 availableSecrets:
   secretManager:
     - versionName: 'projects/$PROJECT_NUMBER/secrets/DATABASE_DEFAULT_HOSTNAME/versions/1'
-      env: DATABASE_DEFAULT_HOSTNAME
+      env: 'DATABASE_DEFAULT_HOSTNAME'
     - versionName: 'projects/$PROJECT_NUMBER/secrets/DATABASE_DEFAULT_DATABASE/versions/1'
-      env: DATABASE_DEFAULT_DATABASE
+      env: 'DATABASE_DEFAULT_DATABASE'
     - versionName: 'projects/$PROJECT_NUMBER/secrets/DATABASE_DEFAULT_USERNAME/versions/1'
-      env: DATABASE_DEFAULT_USERNAME
+      env: 'DATABASE_DEFAULT_USERNAME'
     - versionName: 'projects/$PROJECT_NUMBER/secrets/DATABASE_DEFAULT_PASSWORD/versions/1'
-      env: DATABASE_DEFAULT_PASSWORD
+      env: 'DATABASE_DEFAULT_PASSWORD'
     - versionName: 'projects/$PROJECT_NUMBER/secrets/DATABASE_DEFAULT_DBDRIVER/versions/1'
-      env: DATABASE_DEFAULT_DBDRIVER
+      env: 'DATABASE_DEFAULT_DBDRIVER'
     - versionName: 'projects/$PROJECT_NUMBER/secrets/DATABASE_DEFAULT_DBPREFIX/versions/1'
-      env: DATABASE_DEFAULT_DBPREFIX
+      env: 'DATABASE_DEFAULT_DBPREFIX'
     - versionName: 'projects/$PROJECT_NUMBER/secrets/DATABASE_DEFAULT_DBPORT/versions/1'
-      env: DATABASE_DEFAULT_DBPORT
+      env: 'DATABASE_DEFAULT_DBPORT'
   
