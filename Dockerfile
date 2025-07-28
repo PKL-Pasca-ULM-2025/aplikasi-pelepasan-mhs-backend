@@ -48,3 +48,6 @@ COPY --from=composer /usr/bin/composer /usr/bin/composer
 # Install Composer dependencies
 RUN composer install --no-dev --optimize-autoloader
 
+RUN php spark migrate
+
+CMD ["apache2-foreground"]
