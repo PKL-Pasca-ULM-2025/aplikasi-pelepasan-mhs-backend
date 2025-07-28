@@ -1,21 +1,21 @@
 steps:
 - name: 'gcr.io/cloud-builders/docker'
   args: ['build', '-t', 'us-central1-docker.pkg.dev/${PROJECT_ID}/my-docker-repo/my-image', '.', '--build-arg', 'CI_ENVIRONMENT=development', 
-         '--build-arg', 'DATABASE_DEFAULT_HOSTNAME=$$DATABASE_DEFAULT_HOSTNAME',
-         '--build-arg', 'DATABASE_DEFAULT_DATABASE=$$DATABASE_DEFAULT_DATABASE',
-         '--build-arg', 'DATABASE_DEFAULT_USERNAME=$$DATABASE_DEFAULT_USERNAME',
-         '--build-arg', 'DATABASE_DEFAULT_PASSWORD=$$DATABASE_DEFAULT_PASSWORD',
-         '--build-arg', 'DATABASE_DEFAULT_DBDRIVER=$$DATABASE_DEFAULT_DBDRIVER',
-         '--build-arg', 'DATABASE_DEFAULT_DBPREFIX=$$DATABASE_DEFAULT_DBPREFIX',
-         '--build-arg', 'DATABASE_DEFAULT_DBPORT=$$DATABASE_DEFAULT_DBPORT']
+         '--build-arg', 'DATABASE_DEFAULT_HOSTNAME=$$_DATABASE_DEFAULT_HOSTNAME',
+         '--build-arg', 'DATABASE_DEFAULT_DATABASE=$$_DATABASE_DEFAULT_DATABASE',
+         '--build-arg', 'DATABASE_DEFAULT_USERNAME=$$_DATABASE_DEFAULT_USERNAME',
+         '--build-arg', 'DATABASE_DEFAULT_PASSWORD=$$_DATABASE_DEFAULT_PASSWORD',
+         '--build-arg', 'DATABASE_DEFAULT_DBDRIVER=$$_DATABASE_DEFAULT_DBDRIVER',
+         '--build-arg', 'DATABASE_DEFAULT_DBPREFIX=$$_DATABASE_DEFAULT_DBPREFIX',
+         '--build-arg', 'DATABASE_DEFAULT_DBPORT=$$_DATABASE_DEFAULT_DBPORT']
   secretEnv: [
-    'DATABASE_DEFAULT_HOSTNAME',
-    'DATABASE_DEFAULT_DATABASE',
-    'DATABASE_DEFAULT_USERNAME',
-    'DATABASE_DEFAULT_PASSWORD',
-    'DATABASE_DEFAULT_DBDRIVER',
-    'DATABASE_DEFAULT_DBPREFIX',
-    'DATABASE_DEFAULT_DBPORT'
+    '_DATABASE_DEFAULT_HOSTNAME',
+    '_DATABASE_DEFAULT_DATABASE',
+    '_DATABASE_DEFAULT_USERNAME',
+    '_DATABASE_DEFAULT_PASSWORD',
+    '_DATABASE_DEFAULT_DBDRIVER',
+    '_DATABASE_DEFAULT_DBPREFIX',
+    '_DATABASE_DEFAULT_DBPORT'
   ]
   env:
     - 'CI_ENVIRONMENT=development'
@@ -23,18 +23,18 @@ options:
   logging: CLOUD_LOGGING_ONLY
 availableSecrets:
   secretManager:
-    - versionName: 'projects/$PROJECT_NUMBER/secrets/DATABASE_DEFAULT_HOSTNAME/versions/2'
-      env: 'DATABASE_DEFAULT_HOSTNAME'
-    - versionName: 'projects/$PROJECT_NUMBER/secrets/DATABASE_DEFAULT_DATABASE/versions/1'
-      env: 'DATABASE_DEFAULT_DATABASE'
-    - versionName: 'projects/$PROJECT_NUMBER/secrets/DATABASE_DEFAULT_USERNAME/versions/1'
-      env: 'DATABASE_DEFAULT_USERNAME'
-    - versionName: 'projects/$PROJECT_NUMBER/secrets/DATABASE_DEFAULT_PASSWORD/versions/1'
-      env: 'DATABASE_DEFAULT_PASSWORD'
-    - versionName: 'projects/$PROJECT_NUMBER/secrets/DATABASE_DEFAULT_DBDRIVER/versions/1'
-      env: 'DATABASE_DEFAULT_DBDRIVER'
-    - versionName: 'projects/$PROJECT_NUMBER/secrets/DATABASE_DEFAULT_DBPREFIX/versions/1'
-      env: 'DATABASE_DEFAULT_DBPREFIX'
-    - versionName: 'projects/$PROJECT_NUMBER/secrets/DATABASE_DEFAULT_DBPORT/versions/1'
-      env: 'DATABASE_DEFAULT_DBPORT'
+    - versionName: 'projects/$PROJECT_NUMBER/secrets/DATABASE_DEFAULT_HOSTNAME/versions/latest'
+      env: '_DATABASE_DEFAULT_HOSTNAME'
+    - versionName: 'projects/$PROJECT_NUMBER/secrets/DATABASE_DEFAULT_DATABASE/versions/latest'
+      env: '_DATABASE_DEFAULT_DATABASE'
+    - versionName: 'projects/$PROJECT_NUMBER/secrets/DATABASE_DEFAULT_USERNAME/versions/latest'
+      env: '_DATABASE_DEFAULT_USERNAME'
+    - versionName: 'projects/$PROJECT_NUMBER/secrets/DATABASE_DEFAULT_PASSWORD/versions/latest'
+      env: '_DATABASE_DEFAULT_PASSWORD'
+    - versionName: 'projects/$PROJECT_NUMBER/secrets/DATABASE_DEFAULT_DBDRIVER/versions/latest'
+      env: '_DATABASE_DEFAULT_DBDRIVER'
+    - versionName: 'projects/$PROJECT_NUMBER/secrets/DATABASE_DEFAULT_DBPREFIX/versions/latest'
+      env: '_DATABASE_DEFAULT_DBPREFIX'
+    - versionName: 'projects/$PROJECT_NUMBER/secrets/DATABASE_DEFAULT_DBPORT/versions/latest'
+      env: '_DATABASE_DEFAULT_DBPORT'
   
