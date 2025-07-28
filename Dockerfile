@@ -5,7 +5,7 @@ FROM php:8.4-apache
 ARG DATABASE_DEFAULT_DATABASE=database
 ARG DATABASE_DEFAULT_HOSTNAME=localhost
 ARG DATABASE_DEFAULT_USERNAME=root
-ARG DATABASE_DEFAULT_PASSWORD=password
+ARG DATABASE_DEFAULT_PASSWORD=
 ARG DATABASE_DEFAULT_DBPORT=3306
 ARG CI_ENVIRONMENT=development
 ARG DATABASE_DEFAULT_DBDRIVER=MySQLi
@@ -34,12 +34,12 @@ RUN docker-php-ext-install intl pdo pdo_mysql gd zip mysqli
 COPY . /var/www/html
 WORKDIR /var/www/html
 
-EXPOSE 80
+EXPOSE 8080
 
 COPY docker/site-available/000-default.conf /etc/apache2/sites-available/000-default.conf
 
 RUN chmod -R 777 /var/www/html && \
-    echo "listen 80" > /etc/apache2/ports.conf && \
+    echo "listen 8080" > /etc/apache2/ports.conf && \
     chown -R www-data:www-data /var/www/html && \
     a2enmod rewrite
 
