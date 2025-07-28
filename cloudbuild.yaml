@@ -23,7 +23,7 @@ options:
   logging: CLOUD_LOGGING_ONLY
 availableSecrets:
   secretManager:
-    - versionName: 'projects/$PROJECT_NUMBER/secrets/DATABASE_DEFAULT_HOSTNAME/versions/1'
+    - versionName: 'projects/$PROJECT_NUMBER/secrets/DATABASE_DEFAULT_HOSTNAME/versions/2'
       env: 'DATABASE_DEFAULT_HOSTNAME'
     - versionName: 'projects/$PROJECT_NUMBER/secrets/DATABASE_DEFAULT_DATABASE/versions/1'
       env: 'DATABASE_DEFAULT_DATABASE'
