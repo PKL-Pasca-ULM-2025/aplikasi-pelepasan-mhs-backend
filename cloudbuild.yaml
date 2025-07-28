@@ -4,7 +4,7 @@ steps:
   args:
     - -c
     - |
-      docker build --build-arg CI_ENVIRONMENT=development --build-arg DATABASE_DEFAULT_DATABASE="$$_DATABASE_DEFAULT_DATABASE" --build-arg DATABASE_DEFAULT_HOSTNAME="$$_DATABASE_DEFAULT_HOSTNAME" --build-arg DATABASE_DEFAULT_PASSWORD="$$_DATABASE_DEFAULT_PASSWORD" --build-arg DATABASE_DEFAULT_USERNAME="$$_DATABASE_DEFAULT_USERNAME" --build-arg DATABASE_DEFAULT_DBDRIVER="$$_DATABASE_DEFAULT_DBDRIVER" --build-arg DATABASE_DEFAULT_DBPREFIX="$$_DATABASE_DEFAULT_DBPREFIX" --build-arg DATABASE_DEFAULT_DBPORT="$$_DATABASE_DEFAULT_DBPORT" -f Dockerfile -t gcr.io/$PROJECT_ID/app-pelepasan-image:latest .
+      docker build --build-arg CI_ENVIRONMENT=development --build-arg DATABASE_DEFAULT_DATABASE="$$_DATABASE_DEFAULT_DATABASE" --build-arg DATABASE_DEFAULT_HOSTNAME="$$_DATABASE_DEFAULT_HOSTNAME" --build-arg DATABASE_DEFAULT_PASSWORD="$$_DATABASE_DEFAULT_PASSWORD" --build-arg DATABASE_DEFAULT_USERNAME="$$_DATABASE_DEFAULT_USERNAME" --build-arg DATABASE_DEFAULT_DBDRIVER="$$_DATABASE_DEFAULT_DBDRIVER" --build-arg DATABASE_DEFAULT_DBPREFIX="$$_DATABASE_DEFAULT_DBPREFIX" --build-arg DATABASE_DEFAULT_DBPORT="$$_DATABASE_DEFAULT_DBPORT" -f Dockerfile -t gcr.io/$PROJECT_ID/${_SERVICE_NAME}:${SHORT_SHA} .
 
   secretEnv: [
     '_DATABASE_DEFAULT_HOSTNAME',
@@ -17,6 +17,25 @@ steps:
   ]
   env:
     - 'CI_ENVIRONMENT=development'
+
+- name: "gcr.io/cloud-builders/docker"
+  args: ["push", "gcr.io/$PROJECT_ID/${_SERVICE_NAME}"]
+
+- name: "gcr.io/cloud-builders/gcloud"
+  args:
+      [
+        "run",
+        "deploy",
+        "${_SERVICE_NAME}",
+        "--image",
+        "gcr.io/$PROJECT_ID/${_SERVICE_NAME}:${SHORT_SHA}",
+        "--region",
+        "asia-southeast2",
+        "--platform",
+        "managed",
+        "--allow-unauthenticated",
+      ]
+
 options:
   logging: CLOUD_LOGGING_ONLY
 availableSecrets:
