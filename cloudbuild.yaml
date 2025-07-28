@@ -36,6 +36,9 @@ steps:
         "--allow-unauthenticated",
       ]
 
+image:
+  - gcr.io/$PROJECT_ID/${_SERVICE_NAME}:${SHORT_SHA}
+
 options:
   logging: CLOUD_LOGGING_ONLY
 availableSecrets:
