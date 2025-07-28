@@ -3,11 +3,13 @@
 namespace App\Controllers;
 
 use CodeIgniter\HTTP\ResponseInterface;
+use CodeIgniter\I18n\Time;
 use CodeIgniter\RESTful\ResourceController;
 use App\Models\MahasiswaModel;
 
 class Mahasiswa extends ResourceController
 {
+    protected $format = 'json';
     /**
      * Return an array of resource objects, themselves in array format.
      *
@@ -49,7 +51,7 @@ class Mahasiswa extends ResourceController
      */
     public function show($id = null)
     {
-        //
+        return $this->respond(null,501,'failed');
     }
 
     /**
@@ -59,7 +61,7 @@ class Mahasiswa extends ResourceController
      */
     public function new()
     {
-        //
+        return $this->respond(null,501,'failed');
     }
 
     /**
@@ -69,7 +71,54 @@ class Mahasiswa extends ResourceController
      */
     public function create()
     {
-        //
+        helper('uuid');
+        $time = Time::now('utc');
+        $mahasiswa = new MahasiswaModel();
+
+        //data validation
+        $rules = [
+            'nama' =>'required',
+            'nim' => 'required',
+            'jenis_kelamin' => 'required',
+            'tempat_lahir' => 'required',
+            'tanggal_lahir' => 'required|valid_date',
+            'sks' => 'required|decimal',
+            'ipk' => 'required|decimal',
+            'prodi' => 'required',
+            'lama_studi' => 'required|decimal',
+            'tanggal_bayar' => 'required|valid_date',
+            'biaya' => 'required',
+            'bukti_pembayaran_url' => 'required|valid_url'
+        ];
+
+        $input = $this->request->getJSON();
+
+        $data = [
+            'id' => uuid(),
+            'nama' => $input->nama,
+            'nim' => $input->nim,
+            'jenis_kelamin' => $input->jenis_kelamin,
+            'tempat_lahir' => $input->tempat_lahir,
+            'tanggal_lahir' => $input->tanggal_lahir,
+            'sks' => $input->sks,
+            'ipk' => $input->ipk,
+            'prodi' => $input->prodi,
+            'lama_studi' => $input->lama_studi,
+            'tanggal_bayar' => $input->tanggal_bayar,
+            'biaya' => $input->biaya,
+            'bukti_pembayaran_url' => $input->bukti_pembayaran_url,
+            'status_validasi' => false,
+            'created_at' => $time,
+            'updated_at' => $time
+        ];
+
+        if (!$this->validateData($data, $rules)) {
+            return $this->respond(null, 400, 'Bad Request');
+        }
+
+        //insert data
+        $mahasiswa->save($data);
+        return $this->respond(null,201, 'success');
     }
 
     /**
@@ -81,7 +130,7 @@ class Mahasiswa extends ResourceController
      */
     public function edit($id = null)
     {
-        //
+        return $this->respond(null,501,'failed');
     }
 
     /**
@@ -93,7 +142,7 @@ class Mahasiswa extends ResourceController
      */
     public function update($id = null)
     {
-        //
+        return $this->respond(null,501,'failed');
     }
 
     /**
@@ -105,6 +154,20 @@ class Mahasiswa extends ResourceController
      */
     public function delete($id = null)
     {
-        //
+        return $this->respond(null,501,'failed');
+    }
+
+    public function validate_status($id)
+    {
+        $mahasiswa = new MahasiswaModel();
+        $time = Time::now('utc');
+        $data = $mahasiswa->find($id);
+        if (!$data){
+            return $this->respond(null, 404, 'Mahasiswa not found');
+        }
+        $data['status_validasi'] = true;
+        $data['updated_at'] = $time;
+        $mahasiswa->save($data);
+        return $this->respond(null, 200, 'Status updated successfully');
     }
 }

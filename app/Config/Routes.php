@@ -25,7 +25,7 @@ $routes->get('/', 'Home::index');
  
  
 //$routes->presenter('projects', ['controller' => 'Project']);
-$routes->resource('mahasiswa');
+$routes->resource('mahasiswa', ['except' => ['new', 'show', 'edit', 'delete']]);
 
 $routes->get('/data', 'Mahasiswa::export');
  

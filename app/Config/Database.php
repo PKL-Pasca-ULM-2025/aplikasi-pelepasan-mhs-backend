@@ -29,7 +29,7 @@ class Database extends Config
         'hostname'     => 'localhost',
         'username'     => '',
         'password'     => '',
-        'database'     => '',
+        'database'     => 'ci4',
         'DBDriver'     => 'MySQLi',
         'DBPrefix'     => '',
         'pConnect'     => false,
@@ -163,26 +163,26 @@ class Database extends Config
      * @var array<string, mixed>
      */
     public array $tests = [
-        'DSN'         => '',
-        'hostname'    => '127.0.0.1',
-        'username'    => '',
-        'password'    => '',
-        'database'    => ':memory:',
-        'DBDriver'    => 'SQLite3',
-        'DBPrefix'    => 'db_',  // Needed to ensure we're working correctly with prefixes live. DO NOT REMOVE FOR CI DEVS
-        'pConnect'    => false,
-        'DBDebug'     => true,
-        'charset'     => 'utf8',
-        'DBCollat'    => '',
-        'swapPre'     => '',
-        'encrypt'     => false,
-        'compress'    => false,
-        'strictOn'    => false,
-        'failover'    => [],
-        'port'        => 3306,
-        'foreignKeys' => true,
-        'busyTimeout' => 1000,
-        'dateFormat'  => [
+        'DSN'          => '',
+        'hostname'     => 'localhost',
+        'username'     => '',
+        'password'     => '',
+        'database'     => 'ci4',
+        'DBDriver'     => 'MySQLi',
+        'DBPrefix'     => '',
+        'pConnect'     => false,
+        'DBDebug'      => true,
+        'charset'      => 'utf8mb4',
+        'DBCollat'     => 'utf8mb4_general_ci',
+        'swapPre'      => '',
+        'encrypt'      => false,
+        'compress'     => false,
+        'strictOn'     => false,
+        'failover'     => [],
+        'port'         => 3306,
+        'numberNative' => false,
+        'foundRows'    => false,
+        'dateFormat'   => [
             'date'     => 'Y-m-d',
             'datetime' => 'Y-m-d H:i:s',
             'time'     => 'H:i:s',
@@ -198,6 +198,30 @@ class Database extends Config
         // we don't overwrite live data on accident.
         if (ENVIRONMENT === 'testing') {
             $this->defaultGroup = 'tests';
+        }
+
+        if (ENVIRONMENT === 'development' || ENVIRONMENT === 'production') {
+            $this->default = [
+                'DSN'          => '',
+                'hostname'     => $_ENV['DATABASE_DEFAULT_HOSTNAME'] ?? 'localhost',
+                'username'     => $_ENV['DATABASE_DEFAULT_USERNAME'] ?? '',
+                'password'     => $_ENV['DATABASE_DEFAULT_PASSWORD'] ?? '',
+                'database'     => $_ENV['DATABASE_DEFAULT_DATABASE'] ?? 'ci4',
+                'DBDriver'     => $_ENV['DATABASE_DEFAULT_DBDRIVER'] ?? 'MySQLi',
+                'DBPrefix'     => $_ENV['DATABASE_DEFAULT_DBPREFIX'] ?? '',
+                'pConnect'     => false,
+                'DBDebug'      => true,
+                'charset'      => 'utf8mb4',
+                'DBCollat'     => 'utf8mb4_general_ci',
+                'swapPre'      => '',
+                'encrypt'      => false,
+                'compress'     => false,
+                'strictOn'     => false,
+                'failover'     => [],
+                'port'         => (int)$_ENV['DATABASE_DEFAULT_DBPORT'] ?? 3306,
+                'numberNative' => false,
+                'foundRows'    => false,
+            ];
         }
     }
 }

@@ -42,6 +42,11 @@ $RECYCLE.BIN/
 # These should never be under version control,
 # as it poses a security risk.
 .env
+.env.testing
+.env.development
+.env.production
+.env.build
+#-------------------------
 .vagrant
 Vagrantfile
 
@@ -124,3 +129,10 @@ _modules/*
 
 /results/
 /phpunit*.xml
+
+#-------------------------
+# Docker
+#-------------------------
+compose.yaml
+.dockerignore
+
