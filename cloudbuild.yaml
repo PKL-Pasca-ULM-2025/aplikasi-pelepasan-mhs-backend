@@ -1,13 +1,11 @@
 steps:
 - name: 'gcr.io/cloud-builders/docker'
-  args: ['build', '-t', 'us-central1-docker.pkg.dev/${PROJECT_ID}/my-docker-repo/my-image', '.', '--build-arg', 'CI_ENVIRONMENT=development', 
-         '--build-arg', 'DATABASE_DEFAULT_HOSTNAME=$$_DATABASE_DEFAULT_HOSTNAME',
-         '--build-arg', 'DATABASE_DEFAULT_DATABASE=$$_DATABASE_DEFAULT_DATABASE',
-         '--build-arg', 'DATABASE_DEFAULT_USERNAME=$$_DATABASE_DEFAULT_USERNAME',
-         '--build-arg', 'DATABASE_DEFAULT_PASSWORD=$$_DATABASE_DEFAULT_PASSWORD',
-         '--build-arg', 'DATABASE_DEFAULT_DBDRIVER=$$_DATABASE_DEFAULT_DBDRIVER',
-         '--build-arg', 'DATABASE_DEFAULT_DBPREFIX=$$_DATABASE_DEFAULT_DBPREFIX',
-         '--build-arg', 'DATABASE_DEFAULT_DBPORT=$$_DATABASE_DEFAULT_DBPORT']
+  entrypoint: 'bash'
+  args:
+    - -c
+    - |
+      docker build --build-arg CI_ENVIRONMENT=development --build-arg DATABASE_DEFAULT_DATABASE="$$_DATABASE_DEFAULT_DATABASE" --build-arg DATABASE_DEFAULT_HOSTNAME="$$_DATABASE_DEFAULT_HOSTNAME" --build-arg DATABASE_DEFAULT_PASSWORD="$$_DATABASE_DEFAULT_PASSWORD" --build-arg DATABASE_DEFAULT_USERNAME="$$_DATABASE_DEFAULT_USERNAME" --build-arg DATABASE_DEFAULT_DBDRIVER="$$_DATABASE_DEFAULT_DBDRIVER" --build-arg DATABASE_DEFAULT_DBPREFIX="$$_DATABASE_DEFAULT_DBPREFIX" --build-arg DATABASE_DEFAULT_DBPORT="$$_DATABASE_DEFAULT_DBPORT" -f Dockerfile -t gcr.io/$PROJECT_ID/app-pelepasan-image:latest .
+
   secretEnv: [
     '_DATABASE_DEFAULT_HOSTNAME',
     '_DATABASE_DEFAULT_DATABASE',
