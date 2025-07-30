@@ -12,23 +12,26 @@ $routes->setDefaultMethod('index');
 $routes->setTranslateURIDashes(false);
 $routes->set404Override();
 $routes->setAutoRoute(true);
- 
+
 /*
  * --------------------------------------------------------------------
  * Route Definitions
  * --------------------------------------------------------------------
  */
- 
+
 // We get a performance increase by specifying the default
 // route since we don't have to scan directories.
 $routes->get('/', 'Home::index');
- 
- 
-//$routes->presenter('projects', ['controller' => 'Project']);
-$routes->resource('mahasiswa', ['except' => ['new', 'show', 'edit', 'delete']]);
 
-$routes->get('/data', 'Mahasiswa::export');
- 
+$routes->resource('api/pegawai-mitra-kerja', ['controller' => 'PegawaiMitraKerjaController', 'except' => ['new', 'show', 'edit', 'delete']]);
+$routes->presenter('pegawai-mitra-kerja', ['controller' => 'PegawaiMitraKerjaPresenter']);
+
+$routes->resource('api/calon-pegawai-pelajar', ['controller' => 'CalonPegawaiPelajarController', 'except' => ['new', 'show', 'edit', 'delete']]);
+$routes->presenter('calon-pegawai-pelajar', ['controller' => 'CalonPegawaiPelajarPresenter']);
+
+$routes->resource('api/on-going-pegawai-pelajar', ['controller' => 'OnGoingPegawaiPelajarController', 'except' => ['new', 'show', 'edit', 'delete']]);
+$routes->presenter('on-going-pegawai-pelajar', ['controller' => 'OnGoingPegawaiPelajarPresenter']);
+
 /*
  * --------------------------------------------------------------------
  * Additional Routing
@@ -42,7 +45,6 @@ $routes->get('/data', 'Mahasiswa::export');
  * You will have access to the $routes object within that file without
  * needing to reload it.
  */
-if (file_exists(APPPATH . 'Config/' . ENVIRONMENT . '/Routes.php'))
-{
+if (file_exists(APPPATH . 'Config/' . ENVIRONMENT . '/Routes.php')) {
     require APPPATH . 'Config/' . ENVIRONMENT . '/Routes.php';
 }
