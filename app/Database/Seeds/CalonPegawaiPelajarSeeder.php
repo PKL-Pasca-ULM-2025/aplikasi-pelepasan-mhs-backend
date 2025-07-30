@@ -13,6 +13,7 @@ class CalonPegawaiPelajarSeeder extends Seeder
         $faker = Factory::create('id_ID');
         $ProdiPilihanModel = new \App\Models\ProdiPilihanModel();
         $prodiPilihanId = $ProdiPilihanModel->findColumn('id');
+
         $time = Time::now('utc');
 
         for ($i = 0; $i < 50; $i++) {
@@ -25,6 +26,8 @@ class CalonPegawaiPelajarSeeder extends Seeder
                 'updated_at' => $time,
                 'deleted_at' => null,
                 'unit_kerja' => $faker->company(),
+                'periode_semester' => $faker->randomElement(['Ganjil', 'Genap']),
+                'tahun_ajaran' => $faker->year() . '/' . ($faker->year() + 1),
                 'pekerjaan_di_ulm_saat_ini' => $faker->jobTitle(),
                 'no_hp' => $faker->phoneNumber(),
                 'url_berkas' => $faker->url(),

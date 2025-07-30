@@ -46,6 +46,14 @@ class AddCalonPegawaiPelajar extends Migration
                 'type' => 'VARCHAR',
                 'constraint' => 255
             ],
+            'periode_semester' => [
+                'type' => 'VARCHAR',
+                'constraint' => 255
+            ],
+            'tahun_ajaran' => [
+                'type' => 'VARCHAR',
+                'constraint' => 255
+            ],
             'no_hp' => [
                 'type' => 'VARCHAR',
                 'constraint' => 255

@@ -54,6 +54,10 @@ class AddOnGoingPegawaiPelajar extends Migration
                 'type' => 'INT',
                 'constraint' => 255
             ],
+            'periode_semester' => [
+                'type' => 'VARCHAR',
+                'constraint' => 255
+            ],
             'tahun_ajaran' => [
                 'type' => 'VARCHAR',
                 'constraint' => 255

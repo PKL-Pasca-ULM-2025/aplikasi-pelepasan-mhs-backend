@@ -560,6 +560,12 @@
                 Program Studi Terakhir <span class="sort-indicator">▲</span>
               </th>
               <th scope="col" title="Actions column sorting" aria-sort="none" tabindex="0">
+                Periode Semester <span class="sort-indicator">▲</span>
+              </th>
+              <th scope="col" title="Actions column sorting" aria-sort="none" tabindex="0">
+                Tahun Ajaran <span class="sort-indicator">▲</span>
+              </th>
+              <th scope="col" title="Actions column sorting" aria-sort="none" tabindex="0">
                 No. HP <span class="sort-indicator">▲</span>
               </th>
               <th scope="col" class="berkas" title="Status column sorting" aria-sort="none" tabindex="0">
@@ -579,6 +585,8 @@
                 <td><?= $row->nama_prodi ?></td>
                 <td><?= $row->fakultas_terakhir ?></td>
                 <td><?= $row->prodi_terakhir ?></td>
+                <td><?= $row->periode_semester ?></td>
+                <td><?= $row->tahun_ajaran ?></td>
                 <td><?= $row->no_hp ?></td>
                 <td class="berkas"><a class="berkas" href="<?= $row->url_berkas ?>">Buka Berkas</a></td>
               </tr>

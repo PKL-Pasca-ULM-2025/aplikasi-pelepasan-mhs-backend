@@ -548,16 +548,25 @@
                 Nama <span class="sort-indicator">▲</span>
               </th>
               <th scope="col" title="NIM column sorting" aria-sort="none" tabindex="0">
-                No. Pendaftaran <span class="sort-indicator">▲</span>
+                NIM <span class="sort-indicator">▲</span>
               </th>
               <th scope="col" title="Program Studi column sorting" aria-sort="none" tabindex="0">
                 Program Studi Pilihan <span class="sort-indicator">▲</span>
               </th>
               <th scope="col" title="Status column sorting" aria-sort="none" tabindex="0">
-                Fakultas Terakhir <span class="sort-indicator">▲</span>
+                Unit Kerja <span class="sort-indicator">▲</span>
               </th>
               <th scope="col" title="Status column sorting" aria-sort="none" tabindex="0">
-                Program Studi Terakhir <span class="sort-indicator">▲</span>
+                Pekerjaan di UNLAM saat ini <span class="sort-indicator">▲</span>
+              </th>
+              <th scope="col" title="Actions column sorting" aria-sort="none" tabindex="0">
+                Posisi Semester <span class="sort-indicator">▲</span>
+              </th>
+              <th scope="col" title="Actions column sorting" aria-sort="none" tabindex="0">
+                Periode Semester <span class="sort-indicator">▲</span>
+              </th>
+              <th scope="col" title="Actions column sorting" aria-sort="none" tabindex="0">
+                Tahun Ajaran <span class="sort-indicator">▲</span>
               </th>
               <th scope="col" title="Actions column sorting" aria-sort="none" tabindex="0">
                 No. HP <span class="sort-indicator">▲</span>
@@ -575,10 +584,13 @@
               <tr>
                 <td class="bold-text"><?= ++$count; ?></td>
                 <td class="bold-text"><?= $row->nama; ?></td>
-                <td><?= $row->no_tpa_nim ?></td>
+                <td><?= $row->nim ?></td>
                 <td><?= $row->nama_prodi ?></td>
-                <td><?= $row->fakultas_terakhir ?></td>
-                <td><?= $row->prodi_terakhir ?></td>
+                <td><?= $row->unit_kerja ?></td>
+                <td><?= $row->pekerjaan_di_ulm_saat_ini ?></td>
+                <td><?= $row->posisi_semester ?></td>
+                <td><?= $row->periode_semester ?></td>
+                <td><?= $row->tahun_ajaran ?></td>
                 <td><?= $row->no_hp ?></td>
                 <td class="berkas"><a class="berkas" href="<?= $row->url_berkas ?>">Buka Berkas</a></td>
               </tr>

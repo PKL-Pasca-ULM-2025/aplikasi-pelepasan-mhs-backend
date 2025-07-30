@@ -22,6 +22,8 @@ class PegawaiMitraKerjaSeeder extends Seeder
                 'no_tpa_nim' => $faker->numerify('TPA-######'),
                 'fakultas_terakhir' => $faker->words(3, true),
                 'prodi_terakhir' => $faker->words(3, true),
+                'periode_semester' => $faker->randomElement(['Ganjil', 'Genap']),
+                'tahun_ajaran' => $faker->year() . '/' . ($faker->year() + 1),
                 'no_hp' => $faker->phoneNumber(),
                 'url_berkas' => $faker->url(),
             ];

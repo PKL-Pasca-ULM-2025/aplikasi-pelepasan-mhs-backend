@@ -28,6 +28,7 @@ class OnGoingPegawaiPelajarSeeder extends Seeder
                 'pekerjaan_di_ulm_saat_ini' => $faker->jobTitle(),
                 'no_hp' => $faker->phoneNumber(),
                 'posisi_semester' => $faker->numberBetween(1, 8),
+                'periode_semester' => $faker->randomElement(['Ganjil', 'Genap']),
                 'tahun_ajaran' => $faker->year() . '/' . ($faker->year() + 1),
             ];
             $this->db->table('on_going_pegawai_pelajar')->insert($data);

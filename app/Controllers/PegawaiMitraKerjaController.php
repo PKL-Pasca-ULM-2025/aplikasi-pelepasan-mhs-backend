@@ -83,6 +83,8 @@ class PegawaiMitraKerjaController extends ResourceController
             'fakultas_terakhir' => $input['fakultas_terakhir'],
             'prodi_terakhir' => $input['prodi_terakhir'],
             'no_hp' => $input['no_hp'],
+            'periode_semester' => $input['periode_semester'],
+            'tahun_ajaran' => $input['tahun_ajaran'],
             'url_berkas' => $input['url_berkas'],
             'created_at' => $time,
             'updated_at' => $time

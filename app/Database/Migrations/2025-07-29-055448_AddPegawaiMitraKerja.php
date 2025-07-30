@@ -50,6 +50,14 @@ class AddPegawaiMitraKerja extends Migration
                 'type' => 'VARCHAR',
                 'constraint' => 255
             ],
+            'periode_semester' => [
+                'type' => 'VARCHAR',
+                'constraint' => 255
+            ],
+            'tahun_ajaran' => [
+                'type' => 'VARCHAR',
+                'constraint' => 255
+            ],
             'url_berkas' => [
                 'type' => 'VARCHAR',
                 'constraint' => 255,
