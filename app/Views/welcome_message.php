@@ -285,13 +285,17 @@
 
         <p>If you would like to edit this page you will find it located at:</p>
 
-        <p><?= site_url() ?></p>
-
-        <p><a href="<?= site_url('pegawai-mitra-kerja') ?>"><?= site_url('pegawai-mitra-kerja') ?></a></p>
-
-        <p><?= base_url() ?></p>
-
-        <p><?= base_url('calon-pegawai-pelajar') ?></p>
+        <ul>
+            <li>
+                <a href="<?= site_url('pegawai-mitra-kerja') ?>"><?= site_url('pegawai-mitra-kerja') ?></a>
+            </li>
+            <li>
+                <a href="<?= site_url('calon-pegawai-pelajar') ?>"><?= site_url('calon-pegawai-pelajar') ?></a>
+            </li>
+            <li>
+                <a href="<?= site_url('on-going-pegawai-pelajar') ?>"><?= site_url('on-going-pegawai-pelajar') ?></a>
+            </li>
+        </ul>
 
         <pre><code>app/Views/welcome_message.php</code></pre>
 
