@@ -206,14 +206,7 @@ class App extends BaseConfig
         if ($_ENV['LOCAL_DEV'] ?? false == true) {
             $this->baseURL = 'http://localhost:8080/';
         } else {
-            $allowed_domains = ['aplikasi-pelepasan-mhs-backend-830741474306.asia-southeast2.run.app'];
-            $default_domain = $_ENV['DEFAULT_DOMAIN'] ?? 'aplikasi-pelepasan-mhs-backend-830741474306.asia-southeast2.run.app';
-
-            if (in_array($_SERVER['HTTP_HOST'], $allowed_domains, true)) {
-                $domain = $_SERVER['HTTP_HOST'];
-            } else {
-                $domain = $default_domain;
-            }
+            $domain = $_ENV['DEFAULT_DOMAIN'] ?? 'aplikasi-pelepasan-mhs-backend-830741474306.asia-southeast2.run.app';
 
             if (!empty($_SERVER['HTTPS'])) {
                 $this->baseURL = 'https://' . $domain . '/';
