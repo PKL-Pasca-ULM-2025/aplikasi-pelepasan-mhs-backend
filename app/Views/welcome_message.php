@@ -285,6 +285,14 @@
 
         <p>If you would like to edit this page you will find it located at:</p>
 
+        <p><?= site_url() ?></p>
+
+        <p><a href="<?= site_url('pegawai-mitra-kerja') ?>"><?= site_url('pegawai-mitra-kerja') ?></a></p>
+
+        <p><?= base_url() ?></p>
+
+        <p><?= base_url('calon-pegawai-pelajar') ?></p>
+
         <pre><code>app/Views/welcome_message.php</code></pre>
 
         <p>The corresponding controller for this page can be found at:</p>

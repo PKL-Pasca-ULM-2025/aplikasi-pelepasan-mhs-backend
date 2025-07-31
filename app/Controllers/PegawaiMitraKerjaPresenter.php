@@ -42,7 +42,9 @@ class PegawaiMitraKerjaPresenter extends ResourcePresenter
      */
     public function new()
     {
-        return view('errors/html/error_404');
+        return view('errors/html/error_404', [
+            'message' => 'Resource creation not supported',
+        ]);
     }
 
     /**
@@ -53,7 +55,9 @@ class PegawaiMitraKerjaPresenter extends ResourcePresenter
      */
     public function create()
     {
-        return view('errors/html/error_404');
+        return view('errors/html/error_404', [
+            'message' => 'Resource creation not supported',
+        ]);
     }
 
     /**
@@ -65,7 +69,10 @@ class PegawaiMitraKerjaPresenter extends ResourcePresenter
      */
     public function edit($id = null)
     {
-        return view('errors/html/error_404');
+        return view('errors/html/error_404', [
+            'message' => 'Resource not found',
+            'id' => $id,
+        ]);
     }
 
     /**
@@ -78,7 +85,10 @@ class PegawaiMitraKerjaPresenter extends ResourcePresenter
      */
     public function update($id = null)
     {
-        return view('errors/html/error_404');
+        return view('errors/html/error_404', [
+            'message' => 'Resource not found',
+            'id' => $id,
+        ]);
     }
 
     /**
@@ -90,7 +100,10 @@ class PegawaiMitraKerjaPresenter extends ResourcePresenter
      */
     public function remove($id = null)
     {
-        return view('errors/html/error_404');
+        return view('errors/html/error_404', [
+            'message' => 'Are you sure you want to delete this resource?',
+            'id' => $id,
+        ]);
     }
 
     /**
@@ -102,6 +115,9 @@ class PegawaiMitraKerjaPresenter extends ResourcePresenter
      */
     public function delete($id = null)
     {
-        return view('errors/html/error_404');
+        return view('errors/html/error_404', [
+            'message' => 'Are you sure you want to delete this resource?',
+            'id' => $id,
+        ]);
     }
 }
