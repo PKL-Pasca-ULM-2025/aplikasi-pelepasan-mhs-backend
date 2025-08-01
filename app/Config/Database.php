@@ -250,27 +250,27 @@ class Database extends Config
                 'foundRows' => false,
             ];
 
-            $this->auth = [
-                'DSN' => '',
-                'hostname' => $_ENV['DATABASE_AUTH_HOSTNAME'] ?? 'localhost',
-                'username' => $_ENV['DATABASE_AUTH_USERNAME'] ?? '',
-                'password' => $_ENV['DATABASE_AUTH_PASSWORD'] ?? '',
-                'database' => $_ENV['DATABASE_AUTH_DATABASE'] ?? 'ci4',
-                'DBDriver' => $_ENV['DATABASE_AUTH_DBDRIVER'] ?? 'MySQLi',
-                'DBPrefix' => $_ENV['DATABASE_AUTH_DBPREFIX'] ?? '',
-                'pConnect' => false,
-                'DBDebug' => true,
-                'charset' => 'utf8mb4',
-                'DBCollat' => 'utf8mb4_general_ci',
-                'swapPre' => '',
-                'encrypt' => false,
-                'compress' => false,
-                'strictOn' => false,
-                'failover' => [],
-                'port' => (int) $_ENV['DATABASE_AUTH_DBPORT'] ?? 3306,
-                'numberNative' => false,
-                'foundRows' => false,
-            ];
+            // $this->auth = [
+            //     'DSN' => '',
+            //     'hostname' => $_ENV['DATABASE_AUTH_HOSTNAME'] ?? 'localhost',
+            //     'username' => $_ENV['DATABASE_AUTH_USERNAME'] ?? '',
+            //     'password' => $_ENV['DATABASE_AUTH_PASSWORD'] ?? '',
+            //     'database' => $_ENV['DATABASE_AUTH_DATABASE'] ?? 'ci4',
+            //     'DBDriver' => $_ENV['DATABASE_AUTH_DBDRIVER'] ?? 'MySQLi',
+            //     'DBPrefix' => $_ENV['DATABASE_AUTH_DBPREFIX'] ?? '',
+            //     'pConnect' => false,
+            //     'DBDebug' => true,
+            //     'charset' => 'utf8mb4',
+            //     'DBCollat' => 'utf8mb4_general_ci',
+            //     'swapPre' => '',
+            //     'encrypt' => false,
+            //     'compress' => false,
+            //     'strictOn' => false,
+            //     'failover' => [],
+            //     'port' => (int) $_ENV['DATABASE_AUTH_DBPORT'] ?? 3306,
+            //     'numberNative' => false,
+            //     'foundRows' => false,
+            // ];
         }
     }
 }
