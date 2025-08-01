@@ -22,9 +22,10 @@ class AddProdiPilihan extends Migration
         $this->forge->addPrimaryKey('id');
         $this->forge->createTable('prodi_pilihan', true);
     }
- 
+
     public function down()
     {
         $this->forge->dropTable('prodi_pilihan', true);
+        $this->forge->dropDatabase('app_penurunan_spp');
     }
 }

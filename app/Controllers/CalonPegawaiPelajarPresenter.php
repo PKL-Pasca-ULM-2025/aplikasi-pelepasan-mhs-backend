@@ -8,6 +8,7 @@ use CodeIgniter\RESTful\ResourcePresenter;
 
 class CalonPegawaiPelajarPresenter extends ResourcePresenter
 {
+    protected $modelName = CalonPegawaiPelajarModel::class;
     /**
      * Present a view of resource objects.
      *
@@ -15,8 +16,7 @@ class CalonPegawaiPelajarPresenter extends ResourcePresenter
      */
     public function index()
     {
-        $calonPegawaiPelajarModel = new CalonPegawaiPelajarModel();
-        $data = $calonPegawaiPelajarModel->join('prodi_pilihan', 'calon_pegawai_pelajar.prodi_pilihan_id = prodi_pilihan.id')
+        $data = $this->model->join('prodi_pilihan', 'calon_pegawai_pelajar.prodi_pilihan_id = prodi_pilihan.id')
             ->findAll();
         return view('calon-pegawai-pelajar/table', ['data' => $data]);
     }
