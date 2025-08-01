@@ -23,6 +23,8 @@ $routes->setAutoRoute(true);
 // route since we don't have to scan directories.
 $routes->get('/', 'Home::index');
 
+service('auth')->routes($routes);
+
 $routes->resource('api/pegawai-mitra-kerja', ['controller' => 'PegawaiMitraKerjaController', 'except' => ['new', 'show', 'edit', 'delete']]);
 $routes->presenter('pegawai-mitra-kerja', ['controller' => 'PegawaiMitraKerjaPresenter']);
 
