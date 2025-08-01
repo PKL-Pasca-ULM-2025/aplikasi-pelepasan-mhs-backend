@@ -8,6 +8,7 @@ use CodeIgniter\RESTful\ResourcePresenter;
 
 class OnGoingPegawaiPelajarPresenter extends ResourcePresenter
 {
+    protected $modelName = OnGoingPegawaiPelajarModel::class;
     /**
      * Present a view of resource objects.
      *
@@ -15,8 +16,7 @@ class OnGoingPegawaiPelajarPresenter extends ResourcePresenter
      */
     public function index()
     {
-        $onGoingPegawaiPelajarModel = new OnGoingPegawaiPelajarModel();
-        $data = $onGoingPegawaiPelajarModel->join('prodi_pilihan', 'on_going_pegawai_pelajar.prodi_pilihan_id = prodi_pilihan.id')
+        $data = $this->model->join('prodi_pilihan', 'on_going_pegawai_pelajar.prodi_pilihan_id = prodi_pilihan.id')
             ->findAll();
         return view('on-going-pegawai-pelajar/table', ['data' => $data]);
     }
