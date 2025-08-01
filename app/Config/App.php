@@ -40,7 +40,7 @@ class App extends BaseConfig
      * something else. If you have configured your web server to remove this file
      * from your site URIs, set this variable to an empty string.
      */
-    public string $indexPage = 'index.php';
+    public string $indexPage = '';
 
     /**
      * --------------------------------------------------------------------------
@@ -199,4 +199,21 @@ class App extends BaseConfig
      * @see http://www.w3.org/TR/CSP/
      */
     public bool $CSPEnabled = false;
+
+    public function __construct()
+    {
+
+        if ($_ENV['LOCAL_DEV'] ?? false == true) {
+            $this->baseURL = 'http://localhost:8080/';
+        } else {
+            $domain = $_ENV['DEFAULT_DOMAIN'] ?? 'aplikasi-pelepasan-mhs-backend-830741474306.asia-southeast2.run.app';
+
+            if (!empty($_SERVER['HTTPS'])) {
+                $this->baseURL = 'https://' . $domain . '/';
+            } else {
+                $this->baseURL = 'http://' . $domain . '/';
+            }
+        }
+        parent::__construct();
+    }
 }
