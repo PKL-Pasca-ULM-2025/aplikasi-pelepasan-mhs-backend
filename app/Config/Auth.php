@@ -390,7 +390,7 @@ class Auth extends ShieldAuth
      * Customize the DB group used for each model
      * --------------------------------------------------------------------
      */
-    public ?string $DBGroup = 'auth';
+    public ?string $DBGroup = null;
 
     /**
      * --------------------------------------------------------------------
