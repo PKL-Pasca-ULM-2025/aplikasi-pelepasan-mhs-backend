@@ -7,6 +7,7 @@ use CodeIgniter\RESTful\ResourceController;
 
 class OnGoingPegawaiPelajarController extends ResourceController
 {
+    protected $model = \App\Models\OnGoingPegawaiPelajarModel::class;
     /**
      * Return an array of resource objects, themselves in array format.
      *
@@ -14,7 +15,9 @@ class OnGoingPegawaiPelajarController extends ResourceController
      */
     public function index()
     {
-        //
+        $data = $this->model->join('prodi_pilihan', 'on_going_pegawai_pelajar.prodi_pilihan_id = prodi_pilihan.id')
+            ->findAll();
+        return $this->respond(['message' => 'List On Going Pegawai Pelajar', 'data' => $data], 200, 'OK');
     }
 
     /**
