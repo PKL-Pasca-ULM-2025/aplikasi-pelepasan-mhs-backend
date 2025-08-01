@@ -477,7 +477,7 @@
       <svg class="icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24">
         <path d="M16 13v-2H7v-3l-5 4 5 4v-3zM20 3h-8v2h8v14h-8v2h8c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z" />
       </svg>
-      Logout
+      <a href="<?= site_url('logout') ?>">Logout</a>
     </div>
   </nav>
 
