@@ -72,6 +72,8 @@ php_errors.log
 
 temp/
 
+public/temp/
+
 #-------------------------
 # User Guide Temp Files
 #-------------------------
