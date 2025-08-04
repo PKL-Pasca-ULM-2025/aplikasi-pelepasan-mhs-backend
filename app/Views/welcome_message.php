@@ -263,6 +263,35 @@
                 <li class="menu-item hidden"><a href="https://codeigniter.com/contribute" target="_blank">Contribute</a>
                 </li>
             </ul>
+            <div>
+                <table style="width: 100%; border: #000 solid 1px;; overflow: scroll; display: flex; height: 60vh;">
+                    <tr>
+                        <?php
+                        foreach ($data[0] as $key => $value):
+                            ?>
+                            <th style="padding: 10px; align-items: center;">
+                                <?= esc($key) ?>
+                            </th>
+
+                        <?php endforeach; ?>
+                    </tr>
+                    <?php
+                    foreach ($data as $row):
+                        ?>
+                        <tr>
+                            <?php
+                            foreach ($row as $key => $value):
+                                ?>
+                                <td style="padding: 10px; align-items: center;">
+                                    <?= esc($value) ?>
+                                </td>
+                                <?php
+                            endforeach; ?>
+                        </tr>
+                        <?php
+                    endforeach; ?>
+                </table>
+            </div>
         </div>
 
         <div class="heroe">
