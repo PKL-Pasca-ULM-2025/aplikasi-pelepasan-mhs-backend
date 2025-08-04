@@ -576,23 +576,29 @@
           <tbody>
             <?php
             $count = 0;
-            foreach ($data as $row):
+            if (!empty($data)):
+              foreach ($data as $row):
+                ?>
+                <tr>
+                  <td class="bold-text"><?= ++$count; ?></td>
+                  <td class="bold-text"><?= $row->nama; ?></td>
+                  <td><?= $row->no_tpa_nim ?></td>
+                  <td><?= $row->nama_prodi ?></td>
+                  <td><?= $row->fakultas_terakhir ?></td>
+                  <td><?= $row->prodi_terakhir ?></td>
+                  <td><?= $row->periode_semester ?></td>
+                  <td><?= $row->tahun_ajaran ?></td>
+                  <td><?= $row->no_hp ?></td>
+                  <td class="berkas"><a class="berkas" href="<?= $row->url_berkas ?>">Buka Berkas</a></td>
+                </tr>
+                <?php
+              endforeach;
               ?>
+            <?php else: ?>
               <tr>
-                <td class="bold-text"><?= ++$count; ?></td>
-                <td class="bold-text"><?= $row->nama; ?></td>
-                <td><?= $row->no_tpa_nim ?></td>
-                <td><?= $row->nama_prodi ?></td>
-                <td><?= $row->fakultas_terakhir ?></td>
-                <td><?= $row->prodi_terakhir ?></td>
-                <td><?= $row->periode_semester ?></td>
-                <td><?= $row->tahun_ajaran ?></td>
-                <td><?= $row->no_hp ?></td>
-                <td class="berkas"><a class="berkas" href="<?= $row->url_berkas ?>">Buka Berkas</a></td>
+                <td colspan="11" style="text-align: center; color: #888;">Tidak ada data yang tersedia</td>
               </tr>
-              <?php
-            endforeach;
-            ?>
+            <?php endif; ?>
           </tbody>
         </table>
       </div>
