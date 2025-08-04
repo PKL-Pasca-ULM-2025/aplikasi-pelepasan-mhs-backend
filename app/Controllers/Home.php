@@ -6,6 +6,8 @@ class Home extends BaseController
 {
     public function index(): string
     {
-        return view('welcome_message');
+        helper('excel_helper');
+        $data = import_xlsx('sampel_kirim.xlsx', 'Peminat_Gel.1');
+        return view('welcome_message', ['data' => $data]);
     }
 }
