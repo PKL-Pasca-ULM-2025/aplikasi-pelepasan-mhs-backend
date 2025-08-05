@@ -4,15 +4,15 @@ namespace App\Models;
 
 use CodeIgniter\Model;
 
-class PegawaiMitraKerjaModel extends Model
+class AlumniPredikatPujianULMModel extends Model
 {
-    protected $table = 'pegawai_mitra_kerja';
+    protected $table = 'alumni_predikat_pujian_ulm';
     protected $primaryKey = 'id';
     protected $useAutoIncrement = false;
-    protected $returnType = \App\Entities\PegawaiMitraKerja::class;
+    protected $returnType = App\Entities\AlumniPredikatPujianULM::class;
     protected $useSoftDeletes = false;
     protected $protectFields = true;
-    protected $allowedFields = ['periode_semester', 'tahun_ajaran', 'prodi_pilihan_id', 'nama', 'no_tpa_nim', 'fakultas_terakhir', 'prodi_terakhir', 'no_hp', 'url_berkas', 'created_at', 'updated_at', 'deleted_at', 'sk_dasar'];
+    protected $allowedFields = ['nama', 'no_tpa_nim', 'prodi_pilihan_id', 'tahun_lulus', 'prodi_terakhir', 'fakultas_terakhir', 'nim_terakhir', 'ipk', 'predikat', 'no_hp', 'url_berkas', 'created_at', 'updated_at', 'sk_dasar'];
 
     protected bool $allowEmptyInserts = false;
     protected bool $updateOnlyChanged = true;

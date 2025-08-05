@@ -26,6 +26,5 @@ class AddProdiPilihan extends Migration
     public function down()
     {
         $this->forge->dropTable('prodi_pilihan', true);
-        $this->forge->dropDatabase('app_penurunan_spp');
     }
 }
