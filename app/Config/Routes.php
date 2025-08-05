@@ -25,6 +25,9 @@ $routes->get('/', 'Home::index');
 
 service('auth')->routes($routes);
 
+$routes->get('upload', 'UploadController::index');
+$routes->post('upload', 'UploadController::upload');
+
 $routes->resource('api/pegawai-mitra-kerja', ['controller' => 'PegawaiMitraKerjaController', 'except' => ['new', 'show', 'edit', 'delete']]);
 $routes->presenter('pegawai-mitra-kerja', ['controller' => 'PegawaiMitraKerjaPresenter']);
 

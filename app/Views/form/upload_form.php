@@ -11,11 +11,11 @@
         <li><?= esc($error) ?></li>
     <?php endforeach ?>
 
-    <?= form_open_multipart(site_url('upload-form')) ?>
-    <input type="file" name="input-file" id="input-file" size="20">
+    <?= form_open_multipart(site_url('upload')) ?>
+    <input type="file" name="input-file" id="input-file" size="20" title="input-file">
     <br><br>
-    <input type="submit" value="upload">
-    </form>
+    <button type="submit">Upload</button>
+    <?php form_close() ?>
 
 </body>
 
