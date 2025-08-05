@@ -2,13 +2,14 @@
 
 namespace App\Controllers;
 
+use App\Models\AlumniPredikatPujianULMModel;
 use CodeIgniter\HTTP\ResponseInterface;
 use CodeIgniter\RESTful\ResourceController;
 
 class AlumniPredikatPujianULMController extends ResourceController
 {
 
-    protected $modelName = App\Models\AlumniPredikatPujianULMModel::class;
+    protected $modelName = AlumniPredikatPujianULMModel::class;
 
     /**
      * Return an array of resource objects, themselves in array format.
@@ -17,7 +18,8 @@ class AlumniPredikatPujianULMController extends ResourceController
      */
     public function index()
     {
-        //
+        $data = $this->model->findAll();
+        return $this->respond($data);
     }
 
     /**

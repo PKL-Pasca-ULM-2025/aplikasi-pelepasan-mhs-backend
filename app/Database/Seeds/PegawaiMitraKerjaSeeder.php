@@ -26,6 +26,7 @@ class PegawaiMitraKerjaSeeder extends Seeder
                 'tahun_ajaran' => $faker->year() . '/' . ($faker->year() + 1),
                 'no_hp' => $faker->phoneNumber(),
                 'url_berkas' => $faker->url(),
+                'sk_dasar' => $faker->sentence(),
             ];
 
             $this->db->table('pegawai_mitra_kerja')->insert($data);

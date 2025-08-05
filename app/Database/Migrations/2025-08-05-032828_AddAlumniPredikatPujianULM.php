@@ -70,6 +70,14 @@ class AddAlumniPredikatPujianULM extends Migration
                 'constraint' => 255,
                 'null' => true,
             ],
+            'periode_semester' => [
+                'type' => 'VARCHAR',
+                'constraint' => 255
+            ],
+            'tahun_ajaran' => [
+                'type' => 'VARCHAR',
+                'constraint' => 255
+            ],
         ]);
 
         $this->forge->addKey('id', true);

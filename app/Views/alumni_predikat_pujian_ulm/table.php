@@ -548,31 +548,40 @@
                 Nama <span class="sort-indicator">▲</span>
               </th>
               <th scope="col" title="NIM column sorting" aria-sort="none" tabindex="0">
-                NIM <span class="sort-indicator">▲</span>
+                No. Pendaftaran <span class="sort-indicator">▲</span>
               </th>
               <th scope="col" title="Program Studi column sorting" aria-sort="none" tabindex="0">
                 Program Studi Pilihan <span class="sort-indicator">▲</span>
               </th>
               <th scope="col" title="Status column sorting" aria-sort="none" tabindex="0">
-                Unit Kerja <span class="sort-indicator">▲</span>
+                Fakultas Terakhir <span class="sort-indicator">▲</span>
               </th>
               <th scope="col" title="Status column sorting" aria-sort="none" tabindex="0">
-                Pekerjaan di UNLAM saat ini <span class="sort-indicator">▲</span>
+                Prodi Terakhir <span class="sort-indicator">▲</span>
               </th>
               <th scope="col" title="Actions column sorting" aria-sort="none" tabindex="0">
-                Posisi Semester <span class="sort-indicator">▲</span>
+                Tahun Lulus <span class="sort-indicator">▲</span>
+              </th>
+              <th scope="col" title="Actions column sorting" aria-sort="none" tabindex="0">
+                NIM Terakhir <span class="sort-indicator">▲</span>
+              </th>
+              <th scope="col" title="Actions column sorting" aria-sort="none" tabindex="0">
+                IPK <span class="sort-indicator">▲</span>
+              </th>
+              <th scope="col" title="Actions column sorting" aria-sort="none" tabindex="0">
+                Predikat <span class="sort-indicator">▲</span>
               </th>
               <th scope="col" title="Actions column sorting" aria-sort="none" tabindex="0">
                 No. HP <span class="sort-indicator">▲</span>
+              </th>
+              <th scope="col" title="Actions column sorting" aria-sort="none" tabindex="0">
+                SK. Dasar <span class="sort-indicator">▲</span>
               </th>
               <th scope="col" title="Actions column sorting" aria-sort="none" tabindex="0">
                 Periode Semester <span class="sort-indicator">▲</span>
               </th>
               <th scope="col" title="Actions column sorting" aria-sort="none" tabindex="0">
                 Tahun Ajaran <span class="sort-indicator">▲</span>
-              </th>
-              <th scope="col" title="Actions column sorting" aria-sort="none" tabindex="0">
-                SK. Dasar <span class="sort-indicator">▲</span>
               </th>
               <th scope="col" class="berkas" title="Status column sorting" aria-sort="none" tabindex="0">
                 Berkas <span class="sort-indicator">▲</span>
@@ -588,15 +597,18 @@
                 <tr>
                   <td class="bold-text"><?= ++$count; ?></td>
                   <td class="bold-text"><?= $row->nama; ?></td>
-                  <td><?= $row->nim ?></td>
+                  <td><?= $row->no_tpa_nim ?></td>
                   <td><?= $row->nama_prodi ?></td>
-                  <td><?= $row->unit_kerja ?></td>
-                  <td><?= $row->pekerjaan_di_ulm_saat_ini ?></td>
-                  <td><?= $row->posisi_semester ?></td>
+                  <td><?= $row->fakultas_terakhir ?></td>
+                  <td><?= $row->prodi_terakhir ?></td>
+                  <td><?= $row->tahun_lulus ?></td>
+                  <td><?= $row->nim_terakhir ?></td>
+                  <td><?= $row->ipk ?></td>
+                  <td><?= $row->predikat ?></td>
                   <td><?= $row->no_hp ?></td>
+                  <td><?= $row->sk_dasar ?></td>
                   <td><?= $row->periode_semester ?></td>
                   <td><?= $row->tahun_ajaran ?></td>
-                  <td><?= $row->sk_dasar ?></td>
                   <td class="berkas"><a class="berkas" href="<?= $row->url_berkas ?>">Buka Berkas</a></td>
                 </tr>
                 <?php

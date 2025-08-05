@@ -30,6 +30,8 @@ class OnGoingPegawaiPelajarSeeder extends Seeder
                 'posisi_semester' => $faker->numberBetween(1, 8),
                 'periode_semester' => $faker->randomElement(['Ganjil', 'Genap']),
                 'tahun_ajaran' => $faker->year() . '/' . ($faker->year() + 1),
+                'sk_dasar' => $faker->sentence(),
+                'url_berkas' => $faker->url(),
             ];
             $this->db->table('on_going_pegawai_pelajar')->insert($data);
         }

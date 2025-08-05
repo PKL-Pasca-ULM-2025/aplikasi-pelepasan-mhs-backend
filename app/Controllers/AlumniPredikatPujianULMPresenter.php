@@ -2,22 +2,25 @@
 
 namespace App\Controllers;
 
+use App\Models\AlumniPredikatPujianULMModel;
 use CodeIgniter\HTTP\ResponseInterface;
 use CodeIgniter\RESTful\ResourcePresenter;
 
 class AlumniPredikatPujianULMPresenter extends ResourcePresenter
 {
 
-    protected $modelName = App\Models\AlumniPredikatPujianULMModel::class;
+    protected $modelName = AlumniPredikatPujianULMModel::class;
 
     /**
      * Present a view of resource objects.
      *
-     * @return ResponseInterface
+     * @return string
      */
     public function index()
     {
-        //
+        $data = $this->model->join('prodi_pilihan', 'alumni_predikat_pujian_ulm.prodi_pilihan_id = prodi_pilihan.id')
+            ->findAll();
+        return view('alumni_predikat_pujian_ulm/table', ['data' => $data]);
     }
 
     /**
@@ -25,7 +28,7 @@ class AlumniPredikatPujianULMPresenter extends ResourcePresenter
      *
      * @param int|string|null $id
      *
-     * @return ResponseInterface
+     * @return string
      */
     public function show($id = null)
     {

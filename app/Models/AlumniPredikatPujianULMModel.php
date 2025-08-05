@@ -9,7 +9,7 @@ class AlumniPredikatPujianULMModel extends Model
     protected $table = 'alumni_predikat_pujian_ulm';
     protected $primaryKey = 'id';
     protected $useAutoIncrement = false;
-    protected $returnType = App\Entities\AlumniPredikatPujianULM::class;
+    protected $returnType = \App\Entities\AlumniPredikatPujianULM::class;
     protected $useSoftDeletes = false;
     protected $protectFields = true;
     protected $allowedFields = ['nama', 'no_tpa_nim', 'prodi_pilihan_id', 'tahun_lulus', 'prodi_terakhir', 'fakultas_terakhir', 'nim_terakhir', 'ipk', 'predikat', 'no_hp', 'url_berkas', 'created_at', 'updated_at', 'sk_dasar'];

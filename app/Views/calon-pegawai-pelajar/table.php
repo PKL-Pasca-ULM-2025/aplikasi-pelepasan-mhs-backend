@@ -560,13 +560,16 @@
                 Pekerjaan di UNLAM saat ini <span class="sort-indicator">▲</span>
               </th>
               <th scope="col" title="Actions column sorting" aria-sort="none" tabindex="0">
+                No. HP <span class="sort-indicator">▲</span>
+              </th>
+              <th scope="col" title="Actions column sorting" aria-sort="none" tabindex="0">
                 Periode Semester <span class="sort-indicator">▲</span>
               </th>
               <th scope="col" title="Actions column sorting" aria-sort="none" tabindex="0">
                 Tahun Ajaran <span class="sort-indicator">▲</span>
               </th>
               <th scope="col" title="Actions column sorting" aria-sort="none" tabindex="0">
-                No. HP <span class="sort-indicator">▲</span>
+                SK. Dasar <span class="sort-indicator">▲</span>
               </th>
               <th scope="col" class="berkas" title="Status column sorting" aria-sort="none" tabindex="0">
                 Berkas <span class="sort-indicator">▲</span>
@@ -586,9 +589,10 @@
                   <td><?= $row->nama_prodi ?></td>
                   <td><?= $row->unit_kerja ?></td>
                   <td><?= $row->pekerjaan_di_ulm_saat_ini ?></td>
+                  <td><?= $row->no_hp ?></td>
                   <td><?= $row->periode_semester ?></td>
                   <td><?= $row->tahun_ajaran ?></td>
-                  <td><?= $row->no_hp ?></td>
+                  <td><?= $row->sk_dasar ?></td>
                   <td class="berkas"><a class="berkas" href="<?= $row->url_berkas ?>">Buka Berkas</a></td>
                 </tr>
                 <?php

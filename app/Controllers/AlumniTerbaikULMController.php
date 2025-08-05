@@ -2,13 +2,14 @@
 
 namespace App\Controllers;
 
+use App\Models\AlumniTerbaikULMModel;
 use CodeIgniter\HTTP\ResponseInterface;
 use CodeIgniter\RESTful\ResourceController;
 
 class AlumniTerbaikULMController extends ResourceController
 {
 
-    protected $modelName = App\Models\AlumniTerbaikULMModel::class;
+    protected $modelName = AlumniTerbaikULMModel::class;
 
     /**
      * Return an array of resource objects, themselves in array format.

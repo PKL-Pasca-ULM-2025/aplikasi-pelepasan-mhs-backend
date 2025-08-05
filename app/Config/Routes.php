@@ -37,6 +37,12 @@ $routes->presenter('calon-pegawai-pelajar', ['controller' => 'CalonPegawaiPelaja
 $routes->resource('api/on-going-pegawai-pelajar', ['controller' => 'OnGoingPegawaiPelajarController', 'except' => ['new', 'show', 'edit', 'delete']]);
 $routes->presenter('on-going-pegawai-pelajar', ['controller' => 'OnGoingPegawaiPelajarPresenter']);
 
+$routes->resource('api/alumni-predikat-pujian-ulm', ['controller' => 'AlumniPredikatPujianULMController', 'except' => ['new', 'edit', 'delete', 'show']]);
+$routes->presenter('alumni-predikat-pujian-ulm', ['controller' => 'AlumniPredikatPujianULMPresenter']);
+
+$routes->resource('api/alumni-terbaik-ulm', ['controller' => 'AlumniTerbaikULMController', 'except' => ['new', 'edit', 'delete', 'show']]);
+$routes->presenter('alumni-terbaik-ulm', ['controller' => 'AlumniTerbaikULMPresenter']);
+
 /*
  * --------------------------------------------------------------------
  * Additional Routing
