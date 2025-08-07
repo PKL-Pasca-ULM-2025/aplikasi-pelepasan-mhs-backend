@@ -5,6 +5,7 @@ namespace App\Controllers;
 use App\Models\AlumniPredikatPujianULMModel;
 use CodeIgniter\HTTP\ResponseInterface;
 use CodeIgniter\RESTful\ResourceController;
+use DateTime;
 
 class AlumniPredikatPujianULMController extends ResourceController
 {
@@ -54,9 +55,16 @@ class AlumniPredikatPujianULMController extends ResourceController
         if (!$this->request->header('Content-Type') === 'multipart/form-data') {
             return $this->fail('Invalid Content-Type', 415);
         }
-        helper('uuid_helper');
+        helper(['uuid_helper', 'tahun_ajaran_helper']);
         $berkas = $this->request->getFile('berkas');
         $data = $this->request->getPost();
+
+        $date = new DateTime();
+
+
+        //simpan berkas
+        $filepath = WRITEPATH . 'uploads/' . $berkas->store();
+
 
         $input = [
             'id' => uuid(),
@@ -70,8 +78,16 @@ class AlumniPredikatPujianULMController extends ResourceController
             'ipk' => $data['ipk'],
             'predikat' => $data['predikat'],
             'no_hp' => $data['no_hp'],
+            'url_berkas' => $filepath,
+            'periode_semester' => getPeriodeSemester($date),
+            'tahun_ajaran' => getTahunAjaran($date),
+            'created_at' => $date,
+            'updated_at' => $date
         ];
 
+
+        $this->model->insert($input);
+        return $this->respond(['message' => 'Data berhasil di Tambahkan', 'data' => $input], 201, 'success');
     }
 
     /**

@@ -38,16 +38,9 @@ class UploadController extends BaseController
         if (!$file->hasMoved()) {
             $filepath = WRITEPATH . 'uploads/' . $file->store();
 
-            log_message('info', 'File uploaded to: ' . $filepath);
-
-
-
             $data_mahasiswa = import_xlsx($filepath, 'Peminat_Gel.1');
 
             $data = ['uploaded_fileinfo' => new File($filepath), 'data' => $data_mahasiswa];
-            log_message('info', 'Data imported successfully.');
-            log_message('debug', 'Data content: ' . print_r($data_mahasiswa, true));
-            log_message('debug', 'File info: ' . print_r($data['data'], true));
 
             return view('form/success/upload_success', $data);
         }
