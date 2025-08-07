@@ -51,7 +51,27 @@ class AlumniPredikatPujianULMController extends ResourceController
      */
     public function create()
     {
-        //
+        if (!$this->request->header('Content-Type') === 'multipart/form-data') {
+            return $this->fail('Invalid Content-Type', 415);
+        }
+        helper('uuid_helper');
+        $berkas = $this->request->getFile('berkas');
+        $data = $this->request->getPost();
+
+        $input = [
+            'id' => uuid(),
+            'nama' => $data['nama'],
+            'no_tpa_nim' => $data['no_tpa_nim'],
+            'prodi_pilihan_id' => $data['prodi_pilihan_id'],
+            'tahun_lulus' => $data['tahun_lulus'],
+            'prodi_terakhir' => $data['prodi_terakhir'],
+            'fakultas_terakhir' => $data['fakultas_terakhir'],
+            'nim_terakhir' => $data['nim_terakhir'],
+            'ipk' => $data['ipk'],
+            'predikat' => $data['predikat'],
+            'no_hp' => $data['no_hp'],
+        ];
+
     }
 
     /**

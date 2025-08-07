@@ -23,8 +23,6 @@ $routes->setAutoRoute(true);
 // route since we don't have to scan directories.
 $routes->get('/', 'Home::index');
 
-service('auth')->routes($routes);
-
 $routes->get('upload', 'UploadController::index');
 $routes->post('upload', 'UploadController::upload');
 
