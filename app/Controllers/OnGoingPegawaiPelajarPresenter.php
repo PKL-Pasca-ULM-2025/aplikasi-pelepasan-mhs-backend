@@ -18,7 +18,7 @@ class OnGoingPegawaiPelajarPresenter extends ResourcePresenter
     {
         $data = $this->model->join('prodi_pilihan', 'on_going_pegawai_pelajar.prodi_pilihan_id = prodi_pilihan.id')
             ->findAll();
-        return view('on-going-pegawai-pelajar/table', ['data' => $data]);
+        return view('admin/on-going-pegawai-pelajar/table', ['data' => $data]);
     }
 
     /**

@@ -18,7 +18,7 @@ class CalonPegawaiPelajarPresenter extends ResourcePresenter
     {
         $data = $this->model->join('prodi_pilihan', 'calon_pegawai_pelajar.prodi_pilihan_id = prodi_pilihan.id')
             ->findAll();
-        return view('calon-pegawai-pelajar/table', ['data' => $data]);
+        return view('admin/calon-pegawai-pelajar/table', ['data' => $data]);
     }
 
     /**

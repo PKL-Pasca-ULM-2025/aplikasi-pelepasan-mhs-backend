@@ -30,6 +30,7 @@ class CalonPegawaiPelajarSeeder extends Seeder
                 'tahun_ajaran' => $faker->year() . '/' . ($faker->year() + 1),
                 'pekerjaan_di_ulm_saat_ini' => $faker->jobTitle(),
                 'no_hp' => $faker->phoneNumber(),
+                'sk_dasar' => $faker->sentence(),
                 'url_berkas' => $faker->url(),
             ];
             $this->db->table('calon_pegawai_pelajar')->insert($data);

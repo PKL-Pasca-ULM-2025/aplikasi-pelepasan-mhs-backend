@@ -17,7 +17,7 @@ class PegawaiMitraKerjaPresenter extends ResourcePresenter
     {
         $data = $this->model->join('prodi_pilihan', 'pegawai_mitra_kerja.prodi_pilihan_id = prodi_pilihan.id')
             ->findAll();
-        return view('pegawai-mitra-kerja/table', ['data' => $data]);
+        return view('admin/pegawai-mitra-kerja/table', ['data' => $data]);
     }
 
     /**

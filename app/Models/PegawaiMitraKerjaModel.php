@@ -12,7 +12,7 @@ class PegawaiMitraKerjaModel extends Model
     protected $returnType = \App\Entities\PegawaiMitraKerja::class;
     protected $useSoftDeletes = false;
     protected $protectFields = true;
-    protected $allowedFields = ['periode_semester', 'tahun_ajaran', 'prodi_pilihan_id', 'nama', 'no_tpa_nim', 'fakultas_terakhir', 'prodi_terakhir', 'no_hp', 'url_berkas', 'created_at', 'updated_at', 'deleted_at'];
+    protected $allowedFields = ['periode_semester', 'tahun_ajaran', 'prodi_pilihan_id', 'nama', 'no_tpa_nim', 'fakultas_terakhir', 'prodi_terakhir', 'no_hp', 'url_berkas', 'created_at', 'updated_at', 'deleted_at', 'sk_dasar'];
 
     protected bool $allowEmptyInserts = false;
     protected bool $updateOnlyChanged = true;

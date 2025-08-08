@@ -548,7 +548,7 @@
                 Nama <span class="sort-indicator">▲</span>
               </th>
               <th scope="col" title="NIM column sorting" aria-sort="none" tabindex="0">
-                No. Pendaftaran <span class="sort-indicator">▲</span>
+                NIM <span class="sort-indicator">▲</span>
               </th>
               <th scope="col" title="Program Studi column sorting" aria-sort="none" tabindex="0">
                 Program Studi Pilihan <span class="sort-indicator">▲</span>
@@ -560,13 +560,19 @@
                 Pekerjaan di UNLAM saat ini <span class="sort-indicator">▲</span>
               </th>
               <th scope="col" title="Actions column sorting" aria-sort="none" tabindex="0">
+                Posisi Semester <span class="sort-indicator">▲</span>
+              </th>
+              <th scope="col" title="Actions column sorting" aria-sort="none" tabindex="0">
+                No. HP <span class="sort-indicator">▲</span>
+              </th>
+              <th scope="col" title="Actions column sorting" aria-sort="none" tabindex="0">
                 Periode Semester <span class="sort-indicator">▲</span>
               </th>
               <th scope="col" title="Actions column sorting" aria-sort="none" tabindex="0">
                 Tahun Ajaran <span class="sort-indicator">▲</span>
               </th>
               <th scope="col" title="Actions column sorting" aria-sort="none" tabindex="0">
-                No. HP <span class="sort-indicator">▲</span>
+                SK. Dasar <span class="sort-indicator">▲</span>
               </th>
               <th scope="col" class="berkas" title="Status column sorting" aria-sort="none" tabindex="0">
                 Berkas <span class="sort-indicator">▲</span>
@@ -576,23 +582,31 @@
           <tbody>
             <?php
             $count = 0;
-            foreach ($data as $row):
+            if (!empty($data)):
+              foreach ($data as $row):
+                ?>
+                <tr>
+                  <td class="bold-text"><?= ++$count; ?></td>
+                  <td class="bold-text"><?= $row->nama; ?></td>
+                  <td><?= $row->nim ?></td>
+                  <td><?= $row->nama_prodi ?></td>
+                  <td><?= $row->unit_kerja ?></td>
+                  <td><?= $row->pekerjaan_di_ulm_saat_ini ?></td>
+                  <td><?= $row->posisi_semester ?></td>
+                  <td><?= $row->no_hp ?></td>
+                  <td><?= $row->periode_semester ?></td>
+                  <td><?= $row->tahun_ajaran ?></td>
+                  <td><?= $row->sk_dasar ?></td>
+                  <td class="berkas"><a class="berkas" href="<?= $row->url_berkas ?>">Buka Berkas</a></td>
+                </tr>
+                <?php
+              endforeach;
               ?>
+            <?php else: ?>
               <tr>
-                <td class="bold-text"><?= ++$count; ?></td>
-                <td class="bold-text"><?= $row->nama; ?></td>
-                <td><?= $row->no_tpa_nim ?></td>
-                <td><?= $row->nama_prodi ?></td>
-                <td><?= $row->unit_kerja ?></td>
-                <td><?= $row->pekerjaan_di_ulm_saat_ini ?></td>
-                <td><?= $row->periode_semester ?></td>
-                <td><?= $row->tahun_ajaran ?></td>
-                <td><?= $row->no_hp ?></td>
-                <td class="berkas"><a class="berkas" href="<?= $row->url_berkas ?>">Buka Berkas</a></td>
+                <td colspan="11" style="text-align: center; color: #888;">Tidak ada data yang tersedia</td>
               </tr>
-              <?php
-            endforeach;
-            ?>
+            <?php endif; ?>
           </tbody>
         </table>
       </div>

@@ -557,16 +557,31 @@
                 Fakultas Terakhir <span class="sort-indicator">▲</span>
               </th>
               <th scope="col" title="Status column sorting" aria-sort="none" tabindex="0">
-                Program Studi Terakhir <span class="sort-indicator">▲</span>
+                Prodi Terakhir <span class="sort-indicator">▲</span>
+              </th>
+              <th scope="col" title="Actions column sorting" aria-sort="none" tabindex="0">
+                Tahun Lulus <span class="sort-indicator">▲</span>
+              </th>
+              <th scope="col" title="Actions column sorting" aria-sort="none" tabindex="0">
+                NIM Terakhir <span class="sort-indicator">▲</span>
+              </th>
+              <th scope="col" title="Actions column sorting" aria-sort="none" tabindex="0">
+                IPK <span class="sort-indicator">▲</span>
+              </th>
+              <th scope="col" title="Actions column sorting" aria-sort="none" tabindex="0">
+                Predikat <span class="sort-indicator">▲</span>
+              </th>
+              <th scope="col" title="Actions column sorting" aria-sort="none" tabindex="0">
+                No. HP <span class="sort-indicator">▲</span>
+              </th>
+              <th scope="col" title="Actions column sorting" aria-sort="none" tabindex="0">
+                SK. Dasar <span class="sort-indicator">▲</span>
               </th>
               <th scope="col" title="Actions column sorting" aria-sort="none" tabindex="0">
                 Periode Semester <span class="sort-indicator">▲</span>
               </th>
               <th scope="col" title="Actions column sorting" aria-sort="none" tabindex="0">
                 Tahun Ajaran <span class="sort-indicator">▲</span>
-              </th>
-              <th scope="col" title="Actions column sorting" aria-sort="none" tabindex="0">
-                No. HP <span class="sort-indicator">▲</span>
               </th>
               <th scope="col" class="berkas" title="Status column sorting" aria-sort="none" tabindex="0">
                 Berkas <span class="sort-indicator">▲</span>
@@ -576,23 +591,34 @@
           <tbody>
             <?php
             $count = 0;
-            foreach ($data as $row):
+            if (!empty($data)):
+              foreach ($data as $row):
+                ?>
+                <tr>
+                  <td class="bold-text"><?= ++$count; ?></td>
+                  <td class="bold-text"><?= $row->nama; ?></td>
+                  <td><?= $row->no_tpa_nim ?></td>
+                  <td><?= $row->nama_prodi ?></td>
+                  <td><?= $row->fakultas_terakhir ?></td>
+                  <td><?= $row->prodi_terakhir ?></td>
+                  <td><?= $row->tahun_lulus ?></td>
+                  <td><?= $row->nim_terakhir ?></td>
+                  <td><?= $row->ipk ?></td>
+                  <td><?= $row->predikat ?></td>
+                  <td><?= $row->no_hp ?></td>
+                  <td><?= $row->sk_dasar ?></td>
+                  <td><?= $row->periode_semester ?></td>
+                  <td><?= $row->tahun_ajaran ?></td>
+                  <td class="berkas"><a class="berkas" href="<?= $row->url_berkas ?>">Buka Berkas</a></td>
+                </tr>
+                <?php
+              endforeach;
               ?>
+            <?php else: ?>
               <tr>
-                <td class="bold-text"><?= ++$count; ?></td>
-                <td class="bold-text"><?= $row->nama; ?></td>
-                <td><?= $row->no_tpa_nim ?></td>
-                <td><?= $row->nama_prodi ?></td>
-                <td><?= $row->fakultas_terakhir ?></td>
-                <td><?= $row->prodi_terakhir ?></td>
-                <td><?= $row->periode_semester ?></td>
-                <td><?= $row->tahun_ajaran ?></td>
-                <td><?= $row->no_hp ?></td>
-                <td class="berkas"><a class="berkas" href="<?= $row->url_berkas ?>">Buka Berkas</a></td>
+                <td colspan="11" style="text-align: center; color: #888;">Tidak ada data yang tersedia</td>
               </tr>
-              <?php
-            endforeach;
-            ?>
+            <?php endif; ?>
           </tbody>
         </table>
       </div>

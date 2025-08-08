@@ -263,35 +263,39 @@
                 <li class="menu-item hidden"><a href="https://codeigniter.com/contribute" target="_blank">Contribute</a>
                 </li>
             </ul>
-            <div>
-                <table style="width: 100%; border: #000 solid 1px;; overflow: scroll; display: flex; height: 60vh;">
-                    <tr>
-                        <?php
-                        foreach ($data[0] as $key => $value):
-                            ?>
-                            <th style="padding: 10px; align-items: center;">
-                                <?= esc($key) ?>
-                            </th>
-
-                        <?php endforeach; ?>
-                    </tr>
-                    <?php
-                    foreach ($data as $row):
-                        ?>
+            <?php if (!empty($data)): ?>
+                <div>
+                    <table style="width: 100%; border: #000 solid 1px;; overflow: scroll; display: flex; height: 60vh;">
                         <tr>
                             <?php
-                            foreach ($row as $key => $value):
+                            foreach ($data[0] as $key => $value):
                                 ?>
-                                <td style="padding: 10px; align-items: center;">
-                                    <?= esc($value) ?>
-                                </td>
-                                <?php
-                            endforeach; ?>
+                                <th style="padding: 10px; align-items: center;">
+                                    <?= esc($key) ?>
+                                </th>
+
+                            <?php endforeach; ?>
                         </tr>
                         <?php
-                    endforeach; ?>
-                </table>
-            </div>
+                        foreach ($data as $row):
+                            ?>
+                            <tr>
+                                <?php
+                                foreach ($row as $key => $value):
+                                    ?>
+                                    <td style="padding: 10px; align-items: center;">
+                                        <?= esc($value) ?>
+                                    </td>
+                                    <?php
+                                endforeach; ?>
+                            </tr>
+                            <?php
+                        endforeach; ?>
+                    </table>
+                </div>
+            <?php endif; ?>
+        </div>
+
         </div>
 
         <div class="heroe">
@@ -323,6 +327,11 @@
             </li>
             <li>
                 <a href="<?= site_url('on-going-pegawai-pelajar') ?>"><?= site_url('on-going-pegawai-pelajar') ?></a>
+            </li>
+            <li>
+                <form action="<?= site_url('admin/user/create') ?>" method="POST">
+                    <button type="submit">add user</button>
+                </form>
             </li>
         </ul>
 

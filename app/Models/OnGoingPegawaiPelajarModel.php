@@ -12,7 +12,7 @@ class OnGoingPegawaiPelajarModel extends Model
     protected $returnType = \App\Entities\OnGoingPegawaiPelajar::class;
     protected $useSoftDeletes = false;
     protected $protectFields = true;
-    protected $allowedFields = ['periode_semester', 'tahun_ajaran', 'prodi_pilihan_id', 'nama', 'nim', 'created_at', 'updated_at', 'deleted_at', 'unit_kerja', 'pekerjaan_di_ulm_saat_ini', 'no_hp', 'posisi_semester', 'tahun_ajaran', 'url_berkas'];
+    protected $allowedFields = ['periode_semester', 'tahun_ajaran', 'prodi_pilihan_id', 'nama', 'nim', 'created_at', 'updated_at', 'deleted_at', 'unit_kerja', 'pekerjaan_di_ulm_saat_ini', 'no_hp', 'posisi_semester', 'tahun_ajaran', 'url_berkas', 'sk_dasar'];
 
     protected bool $allowEmptyInserts = false;
     protected bool $updateOnlyChanged = true;
