@@ -58,6 +58,12 @@ class PegawaiMitraKerjaController extends ResourceController
      */
     public function create()
     {
+
+        if (strpos($this->request->getHeaderLine('Content-Type'), 'multipart/form-data') === false) {
+            // 415 is Unsupported Media Type
+            return $this->fail('The request must be a multipart/form-data.', 415);
+        }
+
         $rules = [
             'prodi_pilihan_id' => 'required|is_not_unique[prodi_pilihan.id]',
             'nama' => 'required|string|max_length[255]',

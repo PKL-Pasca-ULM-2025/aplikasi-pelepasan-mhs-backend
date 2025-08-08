@@ -50,6 +50,11 @@ class OnGoingPegawaiPelajarController extends ResourceController
      */
     public function create()
     {
+        if (strpos($this->request->getHeaderLine('Content-Type'), 'multipart/form-data') === false) {
+            // 415 is Unsupported Media Type
+            return $this->fail('The request must be a multipart/form-data.', 415);
+        }
+
         $rules = [
             'nama' => 'required|string|max_length[255]',
             'nim' => 'required|string|max_length[255]',
