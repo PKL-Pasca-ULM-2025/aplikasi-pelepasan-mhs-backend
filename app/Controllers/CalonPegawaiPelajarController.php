@@ -8,7 +8,7 @@ use CodeIgniter\RESTful\ResourceController;
 
 class CalonPegawaiPelajarController extends ResourceController
 {
-    protected $model = \App\Models\CalonPegawaiPelajarModel::class;
+    protected $modelName = \App\Models\CalonPegawaiPelajarModel::class;
     /**
      * Return an array of resource objects, themselves in array format.
      *

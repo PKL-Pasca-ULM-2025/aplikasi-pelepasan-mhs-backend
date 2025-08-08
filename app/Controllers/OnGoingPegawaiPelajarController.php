@@ -8,7 +8,7 @@ use CodeIgniter\RESTful\ResourceController;
 
 class OnGoingPegawaiPelajarController extends ResourceController
 {
-    protected $model = \App\Models\OnGoingPegawaiPelajarModel::class;
+    protected $modelName = \App\Models\OnGoingPegawaiPelajarModel::class;
     /**
      * Return an array of resource objects, themselves in array format.
      *
