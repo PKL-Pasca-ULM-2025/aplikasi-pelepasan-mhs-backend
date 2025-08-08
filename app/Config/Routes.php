@@ -26,19 +26,19 @@ $routes->get('/', 'Home::index');
 $routes->get('upload', 'UploadController::index');
 $routes->post('upload', 'UploadController::upload');
 
-$routes->resource('api/pegawai-mitra-kerja', ['controller' => 'PegawaiMitraKerjaController', 'except' => ['new', 'show', 'edit', 'delete']]);
+$routes->resource('api/pegawai-mitra-kerja', ['controller' => 'PegawaiMitraKerjaController', 'only' => ['index', 'create']]);
 $routes->presenter('admin/pegawai-mitra-kerja', ['controller' => 'PegawaiMitraKerjaPresenter']);
 
-$routes->resource('api/calon-pegawai-pelajar', ['controller' => 'CalonPegawaiPelajarController', 'except' => ['new', 'show', 'edit', 'delete']]);
+$routes->resource('api/calon-pegawai-pelajar', ['controller' => 'CalonPegawaiPelajarController', 'only' => ['index', 'create']]);
 $routes->presenter('admin/calon-pegawai-pelajar', ['controller' => 'CalonPegawaiPelajarPresenter']);
 
-$routes->resource('api/on-going-pegawai-pelajar', ['controller' => 'OnGoingPegawaiPelajarController', 'except' => ['new', 'show', 'edit', 'delete']]);
+$routes->resource('api/on-going-pegawai-pelajar', ['controller' => 'OnGoingPegawaiPelajarController', 'only' => ['index', 'create']]);
 $routes->presenter('admin/on-going-pegawai-pelajar', ['controller' => 'OnGoingPegawaiPelajarPresenter']);
 
-$routes->resource('api/alumni-predikat-pujian-ulm', ['controller' => 'AlumniPredikatPujianULMController', 'except' => ['new', 'edit', 'delete', 'show']]);
+$routes->resource('api/alumni-predikat-pujian-ulm', ['controller' => 'AlumniPredikatPujianULMController', 'only' => ['index', 'create']]);
 $routes->presenter('admin/alumni-predikat-pujian-ulm', ['controller' => 'AlumniPredikatPujianULMPresenter']);
 
-$routes->resource('api/alumni-terbaik-ulm', ['controller' => 'AlumniTerbaikULMController', 'except' => ['new', 'edit', 'delete', 'show']]);
+$routes->resource('api/alumni-terbaik-ulm', ['controller' => 'AlumniTerbaikULMController', 'only' => ['index', 'create']]);
 $routes->presenter('admin/alumni-terbaik-ulm', ['controller' => 'AlumniTerbaikULMPresenter']);
 
 $routes->presenter('admin/user', ['controller' => 'Auth\UserController']);
