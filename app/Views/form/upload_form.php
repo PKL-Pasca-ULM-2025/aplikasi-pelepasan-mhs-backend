@@ -11,7 +11,7 @@
         <li><?= esc($error) ?></li>
     <?php endforeach ?>
 
-    <?= form_open_multipart(site_url('upload')) ?>
+    <?= form_open_multipart(site_url('admin/user/create')) ?>
     <input type="file" name="input-file" id="input-file" size="20" title="input-file">
     <br><br>
     <button type="submit">Upload</button>

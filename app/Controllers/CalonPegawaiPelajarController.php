@@ -2,6 +2,7 @@
 
 namespace App\Controllers;
 
+use DateTime;
 use CodeIgniter\HTTP\ResponseInterface;
 use CodeIgniter\RESTful\ResourceController;
 
@@ -49,7 +50,51 @@ class CalonPegawaiPelajarController extends ResourceController
      */
     public function create()
     {
-        //
+        $rules = [
+            'nama' => 'required|string|max_length[255]',
+            'no_tpa_nim' => 'required|string|max_length[255]',
+            'prodi_pilihan_id' => 'required|is_not_unique[prodi_pilihan.id]',
+            'unit_kerja' => 'required|string|max_length[255]',
+            'pekerjaan_di_ulm_saat_ini' => 'required|string|max_length[255]',
+            'no_hp' => 'required|string|max_length[255]',
+            'berkas' => [
+                'label' => 'Berkas',
+                'rules' => 'uploaded[berkas]|max_size[berkas,5120]|ext_in[berkas,pdf,doc,docx,jpg,jpeg,png]',
+            ],
+        ];
+
+        if (!$this->validate($rules)) {
+            return $this->failValidationErrors($this->validator->getErrors());
+        }
+
+        helper(['uuid_helper', 'tahun_ajaran_helper']);
+        $berkas = $this->request->getFile('berkas');
+
+        // The file has already been validated, so we can safely move it.
+        $filepath = WRITEPATH . 'uploads/' . $berkas->store();
+
+        // Use a fully qualified name or add `use DateTime;` at the top.
+        $date = new DateTime();
+
+        $input = [
+            'id' => uuid(),
+            'nama' => $this->request->getPost('nama'),
+            'no_tpa_nim' => $this->request->getPost('no_tpa_nim'),
+            'prodi_pilihan_id' => $this->request->getPost('prodi_pilihan_id'),
+            'unit_kerja' => $this->request->getPost('unit_kerja'),
+            'pekerjaan_di_ulm_saat_ini' => $this->request->getPost('pekerjaan_di_ulm_saat_ini'),
+            'no_hp' => $this->request->getPost('no_hp'),
+            'url_berkas' => $filepath,
+            'periode_semester' => getPeriodeSemester($date),
+            'tahun_ajaran' => getTahunAjaran($date),
+            'created_at' => $date->format('Y-m-d H:i:s'),
+            'updated_at' => $date->format('Y-m-d H:i:s'),
+        ];
+
+        if ($this->model->insert($input) === false) {
+            return $this->failServerError('Gagal menyimpan data ke database.');
+        }
+        return $this->respondCreated(['message' => 'Data berhasil di Tambahkan', 'data' => $input]);
     }
 
     /**

@@ -76,10 +76,10 @@ function import_xlsx($file_name, $sheet_name = null)
         }
         $col++;
     }
-
+    log_message('debug', implode(', ', $columnNames) . '');
     for ($i = 2; $i <= $highestRow; $i++) {
         $row = [];
-        for ($j = 2; $j <= $highestColumnIndex - 1; $j++) {
+        for ($j = 1; $j <= $highestColumnIndex; $j++) {
             $cellValue = $activeSheet->getCell([$j, $i])->getValue();
             if ($cellValue === null) {
                 $cellValue = '';
@@ -88,6 +88,9 @@ function import_xlsx($file_name, $sheet_name = null)
             $row[$columnNames[$j - 1]] = $cellValue;
         }
         $data[] = $row;
+    }
+    foreach ($data as $row) {
+        log_message('debug', implode(', ', $row));
     }
     return $data;
 }

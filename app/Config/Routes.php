@@ -41,6 +41,9 @@ $routes->presenter('admin/alumni-predikat-pujian-ulm', ['controller' => 'AlumniP
 $routes->resource('api/alumni-terbaik-ulm', ['controller' => 'AlumniTerbaikULMController', 'except' => ['new', 'edit', 'delete', 'show']]);
 $routes->presenter('admin/alumni-terbaik-ulm', ['controller' => 'AlumniTerbaikULMPresenter']);
 
+$routes->presenter('admin/user', ['controller' => 'Auth\UserController']);
+$routes->presenter('admin/login', ['controller' => 'Auth\LoginController']);
+
 /*
  * --------------------------------------------------------------------
  * Additional Routing

@@ -3,9 +3,9 @@
 namespace App\Controllers;
 
 use CodeIgniter\HTTP\ResponseInterface;
-use CodeIgniter\I18n\Time;
 use CodeIgniter\RESTful\ResourceController;
 use \App\Models\PegawaiMitraKerjaModel;
+use DateTime;
 
 class PegawaiMitraKerjaController extends ResourceController
 {
@@ -58,41 +58,44 @@ class PegawaiMitraKerjaController extends ResourceController
      */
     public function create()
     {
-        if (!$this->request->header('Content-Type') === 'application/x-www-form-urlencoded') {
-            return $this->fail('Invalid Content-Type', 415);
-        }
-        helper('uuid');
-        // Validate the input data
         $rules = [
-            'id' => 'required',
-            'prodi_pilihan_id' => 'required',
-            'nama' => 'required|max_length[255]',
-            'no_tpa_nim' => 'required|max_length[50]',
-            'fakultas_terakhir' => 'required|max_length[255]',
-            'prodi_terakhir' => 'required|max_length[255]',
-            'no_hp' => 'required|max_length[20]',
-            'url_berkas' => 'required|valid_url',
-        ];
-        $input = $this->request->getPost();
-        $time = Time::now('utc');
-        $data = [
-            'id' => uuid(),
-            'prodi_pilihan_id' => $input['prodi_pilihan_id'],
-            'nama' => $input['nama'],
-            'no_tpa_nim' => $input['no_tpa_nim'],
-            'fakultas_terakhir' => $input['fakultas_terakhir'],
-            'prodi_terakhir' => $input['prodi_terakhir'],
-            'no_hp' => $input['no_hp'],
-            'periode_semester' => $input['periode_semester'],
-            'tahun_ajaran' => $input['tahun_ajaran'],
-            'url_berkas' => $input['url_berkas'],
-            'created_at' => $time,
-            'updated_at' => $time
+            'prodi_pilihan_id' => 'required|is_not_unique[prodi_pilihan.id]',
+            'nama' => 'required|string|max_length[255]',
+            'no_tpa_nim' => 'required|string|max_length[255]',
+            'fakultas_terakhir' => 'required|string|max_length[255]',
+            'prodi_terakhir' => 'required|string|max_length[255]',
+            'no_hp' => 'required|string|max_length[255]',
+            'berkas' => [
+                'label' => 'Berkas',
+                'rules' => 'uploaded[berkas]|max_size[berkas,5120]|ext_in[berkas,pdf,doc,docx,jpg,jpeg,png]',
+            ],
         ];
 
-        if (!$this->validateData($data, $rules)) {
-            return $this->respond(null, 400, 'Bad Request');
+        if (!$this->validate($rules)) {
+            return $this->failValidationErrors($this->validator->getErrors());
         }
+
+        helper(['uuid_helper', 'tahun_ajaran_helper']);
+
+        $berkas = $this->request->getFile('berkas');
+
+        // The file has already been validated, so we can safely move it.
+        $filepath = WRITEPATH . 'uploads/' . $berkas->store();
+
+        $date = new DateTime();
+
+        $data = [
+            'id' => uuid(),
+            'prodi_pilihan_id' => $this->request->getPost('prodi_pilihan_id'),
+            'nama' => $this->request->getPost('nama'),
+            'no_tpa_nim' => $this->request->getPost('no_tpa_nim'),
+            'fakultas_terakhir' => $this->request->getPost('fakultas_terakhir'),
+            'prodi_terakhir' => $this->request->getPost('prodi_terakhir'),
+            'no_hp' => $this->request->getPost('no_hp'),
+            'periode_semester' => getPeriodeSemester($date),
+            'tahun_ajaran' => getTahunAjaran($date),
+            'url_berkas' => $filepath,
+        ];
 
         $this->model->insert($data);
         return $this->respondCreated(['message' => 'Pegawai Mitra Kerja created successfully', 'data' => $data], 'success');
