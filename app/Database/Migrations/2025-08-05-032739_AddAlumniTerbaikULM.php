@@ -78,10 +78,15 @@ class AddAlumniTerbaikULM extends Migration
                 'type' => 'VARCHAR',
                 'constraint' => 255
             ],
+            'discount_id' => [
+                'type' => 'VARCHAR',
+                'constraint'=> 255
+            ]
         ]);
 
         $this->forge->addKey('id', true);
-        $this->forge->addForeignKey('prodi_pilihan_id', 'prodi_pilihan', 'id', 'CASCADE', 'CASCADE');
+        $this->forge->addForeignKey('prodi_pilihan_id', 'prodi_pilihan', 'id', 'CASCADE');
+        $this->forge->addForeignKey('discount_id', 'discount', 'id', 'CASCADE');
         $this->forge->createTable('alumni_terbaik_ulm');
     }
 

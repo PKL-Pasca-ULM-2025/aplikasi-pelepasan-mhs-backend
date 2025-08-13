@@ -9,10 +9,10 @@ class ProdiPilihanModel extends Model
     protected $table = 'prodi_pilihan';
     protected $primaryKey = 'id';
     protected $useAutoIncrement = false;
-    protected $returnType = 'array';
+    protected $returnType = \App\Entities\ProdiPilihan::class;
     protected $useSoftDeletes = false;
     protected $protectFields = true;
-    protected $allowedFields = ['nama_prodi'];
+    protected $allowedFields = ['nama_prodi', 'jenjang'];
 
     protected bool $allowEmptyInserts = false;
     protected bool $updateOnlyChanged = true;

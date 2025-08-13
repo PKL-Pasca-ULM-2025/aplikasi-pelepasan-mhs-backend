@@ -1,16 +1,17 @@
 <?php
 
-namespace App\Controllers;
+namespace App\Controllers\Api;
 
-use App\Models\AlumniTerbaikULMModel;
 use CodeIgniter\HTTP\ResponseInterface;
 use CodeIgniter\RESTful\ResourceController;
+use \App\Models\PegawaiMitraKerjaModel;
 use DateTime;
 
-class AlumniTerbaikULMController extends ResourceController
+class PegawaiMitraKerjaController extends ResourceController
 {
 
-    protected $modelName = AlumniTerbaikULMModel::class;
+    protected $format = 'json';
+    protected $modelName = PegawaiMitraKerjaModel::class;
 
     /**
      * Return an array of resource objects, themselves in array format.
@@ -19,9 +20,11 @@ class AlumniTerbaikULMController extends ResourceController
      */
     public function index()
     {
-        $data = $this->model->join('prodi_pilihan', 'alumni_terbaik_ulm.prodi_pilihan_id = prodi_pilihan.id')
+        // Logic to retrieve and return a list of Pegawai Mitra Kerja
+        // This could involve fetching data from a model and returning it as JSON or in a view
+        $data = $this->model->join('prodi_pilihan', 'pegawai_mitra_kerja.prodi_pilihan_id = prodi_pilihan.id')
             ->findAll();
-        return $this->respond(['message' => 'List Alumni Terbaik ULM', 'data' => $data], 200, 'OK');
+        return $this->respond(['message' => 'List of Pegawai Mitra Kerja', 'data' => $data], 200, 'success');
     }
 
     /**
@@ -33,7 +36,9 @@ class AlumniTerbaikULMController extends ResourceController
      */
     public function show($id = null)
     {
-        //
+        $data = $this->model->join('prodi_pilihan', 'pegawai_mitra_kerja.prodi_pilihan_id = prodi_pilihan.id')
+            ->find($id);
+        return $this->respond(['message' => 'List of Pegawai Mitra Kerja', 'data' => $data], 200, 'success');
     }
 
     /**
@@ -43,7 +48,7 @@ class AlumniTerbaikULMController extends ResourceController
      */
     public function new()
     {
-        //
+        return $this->respond(null, 501, 'Not Implemented');
     }
 
     /**
@@ -59,19 +64,13 @@ class AlumniTerbaikULMController extends ResourceController
             return $this->fail('The request must be a multipart/form-data.', 415);
         }
 
-
         $rules = [
+            'prodi_pilihan_id' => 'required|is_not_unique[prodi_pilihan.id]',
             'nama' => 'required|string|max_length[255]',
             'no_tpa_nim' => 'required|string|max_length[255]',
-            'prodi_pilihan_id' => 'required|is_not_unique[prodi_pilihan.id]',
-            'tahun_lulus' => 'required|integer|exact_length[4]',
-            'prodi_terakhir' => 'required|string|max_length[255]',
             'fakultas_terakhir' => 'required|string|max_length[255]',
-            'nim_terakhir' => 'required|string|max_length[255]',
-            'ipk' => 'required|decimal',
-            'predikat' => 'required|in_list[sangat_memuaskan,pujian]',
+            'prodi_terakhir' => 'required|string|max_length[255]',
             'no_hp' => 'required|string|max_length[255]',
-            'sk_dasar' => 'permit_empty|string|max_length[255]',
             'berkas' => [
                 'label' => 'Berkas',
                 'rules' => 'uploaded[berkas]|max_size[berkas,5120]|ext_in[berkas,pdf,doc,docx,jpg,jpeg,png]',
@@ -83,38 +82,31 @@ class AlumniTerbaikULMController extends ResourceController
         }
 
         helper(['uuid_helper', 'tahun_ajaran_helper']);
+
         $berkas = $this->request->getFile('berkas');
 
         // The file has already been validated, so we can safely move it.
         $filepath = WRITEPATH . 'uploads/' . $berkas->store();
 
-        // Use a fully qualified name or add `use DateTime;` at the top.
         $date = new DateTime();
 
-        $input = [
+
+        $data = [
             'id' => uuid(),
+            'prodi_pilihan_id' => $this->request->getPost('prodi_pilihan_id'),
             'nama' => $this->request->getPost('nama'),
             'no_tpa_nim' => $this->request->getPost('no_tpa_nim'),
-            'prodi_pilihan_id' => $this->request->getPost('prodi_pilihan_id'),
-            'tahun_lulus' => $this->request->getPost('tahun_lulus'),
-            'prodi_terakhir' => $this->request->getPost('prodi_terakhir'),
             'fakultas_terakhir' => $this->request->getPost('fakultas_terakhir'),
-            'nim_terakhir' => $this->request->getPost('nim_terakhir'),
-            'ipk' => $this->request->getPost('ipk'),
-            'predikat' => $this->request->getPost('predikat'),
+            'prodi_terakhir' => $this->request->getPost('prodi_terakhir'),
             'no_hp' => $this->request->getPost('no_hp'),
-            'sk_dasar' => $this->request->getPost('sk_dasar'),
-            'url_berkas' => $filepath,
             'periode_semester' => getPeriodeSemester($date),
             'tahun_ajaran' => getTahunAjaran($date),
-            'created_at' => $date->format('Y-m-d H:i:s'),
-            'updated_at' => $date->format('Y-m-d H:i:s'),
+            'url_berkas' => $filepath,
         ];
 
-        if ($this->model->insert($input) === false) {
-            return $this->failServerError('Gagal menyimpan data ke database.');
-        }
-        return $this->respondCreated(['message' => 'Data berhasil di Tambahkan', 'data' => $input]);
+        $this->model->insert($data);
+        return $this->respondCreated(['message' => 'Pegawai Mitra Kerja created successfully', 'data' => $data], 'success');
+
     }
 
     /**
@@ -126,7 +118,7 @@ class AlumniTerbaikULMController extends ResourceController
      */
     public function edit($id = null)
     {
-        //
+        return $this->respond(null, 501, 'Not Implemented');
     }
 
     /**
@@ -138,7 +130,7 @@ class AlumniTerbaikULMController extends ResourceController
      */
     public function update($id = null)
     {
-        //
+        return $this->respond(null, 501, 'Not Implemented');
     }
 
     /**
@@ -150,6 +142,6 @@ class AlumniTerbaikULMController extends ResourceController
      */
     public function delete($id = null)
     {
-        //
+        return $this->respond(null, 501, 'Not Implemented');
     }
 }

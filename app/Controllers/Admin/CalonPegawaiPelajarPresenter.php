@@ -1,14 +1,14 @@
 <?php
 
-namespace App\Controllers;
+namespace App\Controllers\Admin;
 
-use App\Models\OnGoingPegawaiPelajarModel;
+use App\Models\CalonPegawaiPelajarModel;
 use CodeIgniter\HTTP\ResponseInterface;
 use CodeIgniter\RESTful\ResourcePresenter;
 
-class OnGoingPegawaiPelajarPresenter extends ResourcePresenter
+class CalonPegawaiPelajarPresenter extends ResourcePresenter
 {
-    protected $modelName = OnGoingPegawaiPelajarModel::class;
+    protected $modelName = CalonPegawaiPelajarModel::class;
     /**
      * Present a view of resource objects.
      *
@@ -16,9 +16,9 @@ class OnGoingPegawaiPelajarPresenter extends ResourcePresenter
      */
     public function index()
     {
-        $data = $this->model->join('prodi_pilihan', 'on_going_pegawai_pelajar.prodi_pilihan_id = prodi_pilihan.id')
+        $data = $this->model->join('prodi_pilihan', 'calon_pegawai_pelajar.prodi_pilihan_id = prodi_pilihan.id')
             ->findAll();
-        return view('admin/on-going-pegawai-pelajar/table', ['data' => $data]);
+        return view('admin/calon-pegawai-pelajar/table', ['data' => $data]);
     }
 
     /**

@@ -1,14 +1,16 @@
 <?php
 
-namespace App\Controllers;
+namespace App\Controllers\Api;
 
+use App\Models\DiscountModel;
+use App\Models\ProdiPilihanModel;
 use DateTime;
 use CodeIgniter\HTTP\ResponseInterface;
 use CodeIgniter\RESTful\ResourceController;
 
-class OnGoingPegawaiPelajarController extends ResourceController
+class CalonPegawaiPelajarController extends ResourceController
 {
-    protected $modelName = \App\Models\OnGoingPegawaiPelajarModel::class;
+    protected $modelName = \App\Models\CalonPegawaiPelajarModel::class;
     /**
      * Return an array of resource objects, themselves in array format.
      *
@@ -16,9 +18,9 @@ class OnGoingPegawaiPelajarController extends ResourceController
      */
     public function index()
     {
-        $data = $this->model->join('prodi_pilihan', 'on_going_pegawai_pelajar.prodi_pilihan_id = prodi_pilihan.id')
+        $data = $this->model->join('prodi_pilihan', 'calon_pegawai_pelajar.prodi_pilihan_id = prodi_pilihan.id')
             ->findAll();
-        return $this->respond(['message' => 'List On Going Pegawai Pelajar', 'data' => $data], 200, 'OK');
+        return $this->respond(['message' => 'List Calon Pegawai Pelajar', 'data' => $data], 200, 'OK');
     }
 
     /**
@@ -50,6 +52,7 @@ class OnGoingPegawaiPelajarController extends ResourceController
      */
     public function create()
     {
+
         if (strpos($this->request->getHeaderLine('Content-Type'), 'multipart/form-data') === false) {
             // 415 is Unsupported Media Type
             return $this->fail('The request must be a multipart/form-data.', 415);
@@ -57,12 +60,11 @@ class OnGoingPegawaiPelajarController extends ResourceController
 
         $rules = [
             'nama' => 'required|string|max_length[255]',
-            'nim' => 'required|string|max_length[255]',
+            'no_tpa_nim' => 'required|string|max_length[255]',
             'prodi_pilihan_id' => 'required|is_not_unique[prodi_pilihan.id]',
             'unit_kerja' => 'required|string|max_length[255]',
             'pekerjaan_di_ulm_saat_ini' => 'required|string|max_length[255]',
             'no_hp' => 'required|string|max_length[255]',
-            'posisi_semester' => 'required|integer',
             'berkas' => [
                 'label' => 'Berkas',
                 'rules' => 'uploaded[berkas]|max_size[berkas,5120]|ext_in[berkas,pdf,doc,docx,jpg,jpeg,png]',
@@ -82,20 +84,42 @@ class OnGoingPegawaiPelajarController extends ResourceController
         // Use a fully qualified name or add `use DateTime;` at the top.
         $date = new DateTime();
 
+        // Load the discount helper
+        helper('discount_helper');
+
+        $prodiModel = new ProdiPilihanModel();
+        $prodi = $prodiModel->find($this->request->getPost('prodi_pilihan_id'));
+        $discount = get_discount($prodi->jenjang, 'alumni_predikat_pujian_ulm');
+        $discount_id = uuid();
+
+        $discount_data = [
+            'id' => $discount_id,
+            'discount_sem_1' => $discount['1'],
+            'discount_sem_2' => $discount['2'],
+            'discount_sem_3' => $discount['3'],
+            'discount_sem_4' => $discount['4'],
+            'discount_sem_5' => $discount['5'],
+            'discount_sem_6' => $discount['6'],
+        ];
+
+        $discount_model = new DiscountModel();
+        $discount_model->insert($discount_data);
+
+
         $input = [
             'id' => uuid(),
             'nama' => $this->request->getPost('nama'),
-            'nim' => $this->request->getPost('nim'),
+            'no_tpa_nim' => $this->request->getPost('no_tpa_nim'),
             'prodi_pilihan_id' => $this->request->getPost('prodi_pilihan_id'),
             'unit_kerja' => $this->request->getPost('unit_kerja'),
             'pekerjaan_di_ulm_saat_ini' => $this->request->getPost('pekerjaan_di_ulm_saat_ini'),
             'no_hp' => $this->request->getPost('no_hp'),
-            'posisi_semester' => $this->request->getPost('posisi_semester'),
             'url_berkas' => $filepath,
             'periode_semester' => getPeriodeSemester($date),
             'tahun_ajaran' => getTahunAjaran($date),
             'created_at' => $date->format('Y-m-d H:i:s'),
             'updated_at' => $date->format('Y-m-d H:i:s'),
+            'discount_id' => $discount_id
         ];
 
         if ($this->model->insert($input) === false) {

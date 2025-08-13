@@ -66,9 +66,14 @@ class AddOnGoingPegawaiPelajar extends Migration
                 'type' => 'VARCHAR',
                 'constraint' => 255,
             ],
+            'discount_id' => [
+                'type' => 'VARCHAR',
+                'constraint'=> 255
+            ]
         ]);
         $this->forge->addPrimaryKey('id');
-        $this->forge->addForeignKey('prodi_pilihan_id', 'prodi_pilihan', 'id', 'CASCADE', 'CASCADE');
+        $this->forge->addForeignKey('prodi_pilihan_id', 'prodi_pilihan', 'id', 'CASCADE');
+        $this->forge->addForeignKey('discount_id', 'discount', 'id', 'CASCADE');
         $this->forge->createTable('on_going_pegawai_pelajar', true);
     }
 

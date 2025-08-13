@@ -203,10 +203,10 @@ class App extends BaseConfig
     public function __construct()
     {
 
-        if ($_ENV['LOCAL_DEV'] ?? false == true) {
+        if (getenv('LOCAL_DEV') ?? false == true) {
             $this->baseURL = 'http://localhost:8080/';
         } else {
-            $domain = $_ENV['DEFAULT_DOMAIN'] ?? 'aplikasi-pelepasan-mhs-backend-830741474306.asia-southeast2.run.app';
+            $domain = getenv('DEFAULT_DOMAIN') ?? 'aplikasi-pelepasan-mhs-backend-830741474306.asia-southeast2.run.app';
 
             if (!empty($_SERVER['HTTPS'])) {
                 $this->baseURL = 'https://' . $domain . '/';

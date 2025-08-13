@@ -1,24 +1,26 @@
 <?php
 
-namespace App\Controllers;
+namespace App\Controllers\Admin;
 
-use App\Models\CalonPegawaiPelajarModel;
+use App\Models\AlumniTerbaikULMModel;
 use CodeIgniter\HTTP\ResponseInterface;
 use CodeIgniter\RESTful\ResourcePresenter;
 
-class CalonPegawaiPelajarPresenter extends ResourcePresenter
+class AlumniTerbaikULMPresenter extends ResourcePresenter
 {
-    protected $modelName = CalonPegawaiPelajarModel::class;
+
+    protected $modelName = AlumniTerbaikULMModel::class;
+
     /**
      * Present a view of resource objects.
      *
-     * @return string
+     * @return ResponseInterface
      */
     public function index()
     {
-        $data = $this->model->join('prodi_pilihan', 'calon_pegawai_pelajar.prodi_pilihan_id = prodi_pilihan.id')
+        $data = $this->model->join('prodi_pilihan', 'alumni_terbaik_ulm.prodi_pilihan_id = prodi_pilihan.id')
             ->findAll();
-        return view('admin/calon-pegawai-pelajar/table', ['data' => $data]);
+        return view('admin/alumni_terbaik_ulm/table', ['data' => $data]);
     }
 
     /**
@@ -26,7 +28,7 @@ class CalonPegawaiPelajarPresenter extends ResourcePresenter
      *
      * @param int|string|null $id
      *
-     * @return string
+     * @return ResponseInterface
      */
     public function show($id = null)
     {
@@ -36,7 +38,7 @@ class CalonPegawaiPelajarPresenter extends ResourcePresenter
     /**
      * Present a view to present a new single resource object.
      *
-     * @return string
+     * @return ResponseInterface
      */
     public function new()
     {
@@ -47,7 +49,7 @@ class CalonPegawaiPelajarPresenter extends ResourcePresenter
      * Process the creation/insertion of a new resource object.
      * This should be a POST.
      *
-     * @return string
+     * @return ResponseInterface
      */
     public function create()
     {
@@ -59,7 +61,7 @@ class CalonPegawaiPelajarPresenter extends ResourcePresenter
      *
      * @param int|string|null $id
      *
-     * @return string
+     * @return ResponseInterface
      */
     public function edit($id = null)
     {
@@ -72,7 +74,7 @@ class CalonPegawaiPelajarPresenter extends ResourcePresenter
      *
      * @param int|string|null $id
      *
-     * @return string
+     * @return ResponseInterface
      */
     public function update($id = null)
     {
@@ -84,7 +86,7 @@ class CalonPegawaiPelajarPresenter extends ResourcePresenter
      *
      * @param int|string|null $id
      *
-     * @return string
+     * @return ResponseInterface
      */
     public function remove($id = null)
     {
@@ -96,7 +98,7 @@ class CalonPegawaiPelajarPresenter extends ResourcePresenter
      *
      * @param int|string|null $id
      *
-     * @return string
+     * @return ResponseInterface
      */
     public function delete($id = null)
     {

@@ -3,57 +3,96 @@
 namespace App\Controllers\Auth;
 
 use App\Controllers\BaseController;
-use App\Models\Auth\UserModel;
-use CodeIgniter\API\ResponseTrait;
-use CodeIgniter\HTTP\ResponseInterface;
-use Firebase\JWT\JWT;
+use CodeIgniter\HTTP\RedirectResponse;
+use CodeIgniter\Shield\Authentication\Authenticators\Session;
+use CodeIgniter\Shield\Traits\Viewable;
+use CodeIgniter\Shield\Validation\ValidationRules;
 
 class LoginController extends BaseController
 {
-    use ResponseTrait;
+    use Viewable;
 
-    public function login()
+    /**
+     * Displays the form the login to the site.
+     *
+     * @return RedirectResponse|string
+     */
+    public function loginView()
     {
-        $userModel = new UserModel();
-
-        $no_tpa = $this->request->getPost('no_tpa');
-        $password = (string) $this->request->getPost('password');
-
-        $user = $userModel->where('no_tpa', $no_tpa)->first();
-
-        // Combine user existence and password check to prevent user enumeration attacks
-        // and ensure script execution stops on failure.
-        if ($user === null || !password_verify($password, $user->password)) {
-            return $this->failUnauthorized('Invalid TPA number or password.');
+        if (auth()->loggedIn()) {
+            return redirect()->to(config('Auth')->loginRedirect());
         }
 
-        // Use getenv() for consistency with CodeIgniter's .env handling
-        $key = getenv('JWT_SECRET');
-        $iat = time();
-        $exp = $iat + (60 * 60); // 1 hour expiration
+        /** @var Session $authenticator */
+        $authenticator = auth('session')->getAuthenticator();
 
-        $payload = [
-            'iss' => base_url(), // Issuer of the JWT (e.g., your base URL)
-            'aud' => base_url(), // Audience of the JWT
-            'sub' => 'User Login', // Subject of the JWT
-            'iat' => $iat, // Issued At timestamp
-            'exp' => $exp,
-        ];
+        // If an action has been defined, start it up.
+        if ($authenticator->hasAction()) {
+            return redirect()->route('auth-action-show');
+        }
 
-        $token = JWT::encode($payload, $key, 'HS256');
-
-        return $this->respond([
-            'message' => 'success',
-            'token' => $token,
-            'user' => [
-                'id' => $user['id'],
-                'no_tpa' => $user['no_tpa'],
-            ]
-        ], 200);
+        return $this->view('auth/login');
     }
 
-    public function logout()
+    /**
+     * Attempts to log the user in.
+     */
+    public function loginAction(): RedirectResponse
     {
+        // Validate here first, since some things,
+        // like the password, can only be validated properly here.
+        $rules = $this->getValidationRules();
 
+        if (!$this->validateData($this->request->getPost(), $rules, [], config('Auth')->DBGroup)) {
+            return redirect()->back()->withInput()->with('errors', $this->validator->getErrors());
+        }
+
+        /** @var array $credentials */
+        $credentials = $this->request->getPost(setting('Auth.validFields')) ?? [];
+        $credentials = array_filter($credentials);
+        $credentials['password'] = $this->request->getPost('password');
+        $remember = (bool) $this->request->getPost('remember');
+
+        /** @var Session $authenticator */
+        $authenticator = auth('session')->getAuthenticator();
+
+        // Attempt to login
+        $result = $authenticator->remember($remember)->attempt($credentials);
+        if (!$result->isOK()) {
+            return redirect()->route('login')->withInput()->with('error', $result->reason());
+        }
+
+        // If an action has been defined for login, start it up.
+        if ($authenticator->hasAction()) {
+            return redirect()->route('auth-action-show')->withCookies();
+        }
+
+        return redirect()->to(config('Auth')->loginRedirect())->withCookies();
+    }
+
+    /**
+     * Returns the rules that should be used for validation.
+     *
+     * @return array<string, array<string, list<string>|string>>
+     */
+    protected function getValidationRules(): array
+    {
+        $rules = new ValidationRules();
+
+        return $rules->getLoginRules();
+    }
+
+    /**
+     * Logs the current user out.
+     */
+    public function logoutAction(): RedirectResponse
+    {
+        // Capture logout redirect URL before auth logout,
+        // otherwise you cannot check the user in `logoutRedirect()`.
+        $url = config('Auth')->logoutRedirect();
+
+        auth()->logout();
+
+        return redirect()->to($url)->with('message', lang('Auth.successLogout'));
     }
 }

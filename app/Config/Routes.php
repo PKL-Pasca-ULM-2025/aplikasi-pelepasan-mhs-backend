@@ -21,28 +21,34 @@ $routes->setAutoRoute(true);
 
 // We get a performance increase by specifying the default
 // route since we don't have to scan directories.
+
+service('auth')->routes($routes, ['except' => ['login']]);
 $routes->get('/', 'Home::index');
 
 $routes->get('upload', 'UploadController::index');
 $routes->post('upload', 'UploadController::upload');
 
-$routes->resource('api/pegawai-mitra-kerja', ['controller' => 'PegawaiMitraKerjaController', 'only' => ['index', 'create']]);
-$routes->presenter('admin/pegawai-mitra-kerja', ['controller' => 'PegawaiMitraKerjaPresenter']);
+$routes->addRedirect('login', 'admin/login');
 
-$routes->resource('api/calon-pegawai-pelajar', ['controller' => 'CalonPegawaiPelajarController', 'only' => ['index', 'create']]);
-$routes->presenter('admin/calon-pegawai-pelajar', ['controller' => 'CalonPegawaiPelajarPresenter']);
 
-$routes->resource('api/on-going-pegawai-pelajar', ['controller' => 'OnGoingPegawaiPelajarController', 'only' => ['index', 'create']]);
-$routes->presenter('admin/on-going-pegawai-pelajar', ['controller' => 'OnGoingPegawaiPelajarPresenter']);
+$routes->group('admin', static function ($routes) {
+    $routes->presenter('alumni-terbaik-ulm', ['controller' => 'Admin\AlumniTerbaikULMPresenter']);
+    $routes->presenter('alumni-predikat-pujian-ulm', ['controller' => 'Admin\AlumniPredikatPujianULMPresenter']);
+    $routes->presenter('on-going-pegawai-pelajar', ['controller' => 'Admin\OnGoingPegawaiPelajarPresenter']);
+    $routes->presenter('calon-pegawai-pelajar', ['controller' => 'Admin\CalonPegawaiPelajarPresenter']);
+    $routes->presenter('pegawai-mitra-kerja', ['controller' => 'Admin\PegawaiMitraKerjaPresenter']);
+    $routes->presenter('user', ['controller' => 'Auth\UserController']);
+    $routes->post('login', 'Auth\LoginController::loginAction');
+    $routes->get('login', 'Auth\LoginController::loginView');
+});
 
-$routes->resource('api/alumni-predikat-pujian-ulm', ['controller' => 'AlumniPredikatPujianULMController', 'only' => ['index', 'create']]);
-$routes->presenter('admin/alumni-predikat-pujian-ulm', ['controller' => 'AlumniPredikatPujianULMPresenter']);
-
-$routes->resource('api/alumni-terbaik-ulm', ['controller' => 'AlumniTerbaikULMController', 'only' => ['index', 'create']]);
-$routes->presenter('admin/alumni-terbaik-ulm', ['controller' => 'AlumniTerbaikULMPresenter']);
-
-$routes->presenter('admin/user', ['controller' => 'Auth\UserController']);
-$routes->presenter('admin/login', ['controller' => 'Auth\LoginController']);
+$routes->group('api', static function ($routes) {
+    $routes->resource('pegawai-mitra-kerja', ['controller' => 'Api\PegawaiMitraKerjaController', 'only' => ['index', 'create']]);
+    $routes->resource('calon-pegawai-pelajar', ['controller' => 'Api\CalonPegawaiPelajarController', 'only' => ['index', 'create']]);
+    $routes->resource('on-going-pegawai-pelajar', ['controller' => 'Api\OnGoingPegawaiPelajarController', 'only' => ['index', 'create']]);
+    $routes->resource('alumni-predikat-pujian-ulm', ['controller' => 'Api\AlumniPredikatPujianULMController', 'only' => ['index', 'create']]);
+    $routes->resource('alumni-terbaik-ulm', ['controller' => 'Api\AlumniTerbaikULMController', 'only' => ['index', 'create']]);
+});
 
 /*
  * --------------------------------------------------------------------

@@ -5,6 +5,7 @@ namespace App\Controllers\Auth;
 use CodeIgniter\HTTP\ResponseInterface;
 use CodeIgniter\I18n\Time;
 use CodeIgniter\RESTful\ResourcePresenter;
+use CodeIgniter\Shield\Entities\User;
 
 class UserController extends ResourcePresenter
 {
@@ -35,6 +36,8 @@ class UserController extends ResourcePresenter
         ];
         helper(['excel_helper', 'uuid_helper']);
 
+        $userModel = auth()->getProvider();
+
         if (!$this->validate($validationRule)) {
             $data = ['errors' => $this->validator->getErrors()];
             return view('form/upload_form', $data);
@@ -47,22 +50,16 @@ class UserController extends ResourcePresenter
         $dataToInsert = [];
         $time = Time::now();
         foreach ($input as $row) {
-            $dataToInsert[] = [
-                'id' => uuid(),
-                'no_tpa' => $row['no_tpa'],
+            $userModel->save(new User([
+                'username' => $row['no_tpa'],
+                'email' => null,
                 'password' => password_hash($row['password'], PASSWORD_DEFAULT),
-                'created_at' => $time->format('Y-m-d H:i:s'),
-                'updated_at' => $time->format('Y-m-d H:i:s'),
-            ];
-        }
-
-        if (!empty($dataToInsert)) {
-            $this->model->insertBatch($dataToInsert);
+            ]));
         }
 
         unlink($filePath); // Clean up the uploaded file
 
-        return redirect()->to('users')->with('message', 'Users imported successfully!');
+        return redirect()->to('/')->with('message', 'Users imported successfully!');
 
     }
 }

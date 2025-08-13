@@ -1,8 +1,10 @@
 <?php
 
-namespace App\Controllers;
+namespace App\Controllers\Api;
 
 use App\Models\AlumniPredikatPujianULMModel;
+use App\Models\DiscountModel;
+use App\Models\ProdiPilihanModel;
 use CodeIgniter\HTTP\ResponseInterface;
 use CodeIgniter\RESTful\ResourceController;
 use DateTime;
@@ -91,6 +93,27 @@ class AlumniPredikatPujianULMController extends ResourceController
         // Use a fully qualified name or add `use DateTime;` at the top.
         $date = new DateTime();
 
+        // Load the discount helper
+        helper('discount_helper');
+
+        $prodiModel = new ProdiPilihanModel();
+        $prodi = $prodiModel->find($this->request->getPost('prodi_pilihan_id'));
+        $discount = get_discount($prodi->jenjang, 'alumni_predikat_pujian_ulm');
+        $discount_id = uuid();
+
+        $discount_data = [
+            'id' => $discount_id,
+            'discount_sem_1' => $discount['1'],
+            'discount_sem_2' => $discount['2'],
+            'discount_sem_3' => $discount['3'],
+            'discount_sem_4' => $discount['4'],
+            'discount_sem_5' => $discount['5'],
+            'discount_sem_6' => $discount['6'],
+        ];
+
+        $discount_model = new DiscountModel();
+        $discount_model->insert($discount_data);
+
         $input = [
             'id' => uuid(),
             'nama' => $this->request->getPost('nama'),
@@ -107,6 +130,7 @@ class AlumniPredikatPujianULMController extends ResourceController
             'url_berkas' => $filepath,
             'periode_semester' => getPeriodeSemester($date),
             'tahun_ajaran' => getTahunAjaran($date),
+            'discount_id' => $discount_id,
             'created_at' => $date->format('Y-m-d H:i:s'),
             'updated_at' => $date->format('Y-m-d H:i:s'),
         ];

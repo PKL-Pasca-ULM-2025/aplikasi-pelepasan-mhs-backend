@@ -18,6 +18,10 @@ class AddProdiPilihan extends Migration
                 'type' => 'VARCHAR',
                 'constraint' => 255
             ],
+            'jenjang' => [
+                'type' => 'ENUM',
+                'constraint' => ['magister', 'doktor']
+            ]
         ]);
         $this->forge->addPrimaryKey('id');
         $this->forge->createTable('prodi_pilihan', true);

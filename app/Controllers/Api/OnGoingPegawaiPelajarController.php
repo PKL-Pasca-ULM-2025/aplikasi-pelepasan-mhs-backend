@@ -1,18 +1,16 @@
 <?php
 
-namespace App\Controllers;
+namespace App\Controllers\Api;
 
+use App\Models\DiscountModel;
+use App\Models\ProdiPilihanModel;
+use DateTime;
 use CodeIgniter\HTTP\ResponseInterface;
 use CodeIgniter\RESTful\ResourceController;
-use \App\Models\PegawaiMitraKerjaModel;
-use DateTime;
 
-class PegawaiMitraKerjaController extends ResourceController
+class OnGoingPegawaiPelajarController extends ResourceController
 {
-
-    protected $format = 'json';
-    protected $modelName = PegawaiMitraKerjaModel::class;
-
+    protected $modelName = \App\Models\OnGoingPegawaiPelajarModel::class;
     /**
      * Return an array of resource objects, themselves in array format.
      *
@@ -20,11 +18,9 @@ class PegawaiMitraKerjaController extends ResourceController
      */
     public function index()
     {
-        // Logic to retrieve and return a list of Pegawai Mitra Kerja
-        // This could involve fetching data from a model and returning it as JSON or in a view
-        $data = $this->model->join('prodi_pilihan', 'pegawai_mitra_kerja.prodi_pilihan_id = prodi_pilihan.id')
+        $data = $this->model->join('prodi_pilihan', 'on_going_pegawai_pelajar.prodi_pilihan_id = prodi_pilihan.id')
             ->findAll();
-        return $this->respond(['message' => 'List of Pegawai Mitra Kerja', 'data' => $data], 200, 'success');
+        return $this->respond(['message' => 'List On Going Pegawai Pelajar', 'data' => $data], 200, 'OK');
     }
 
     /**
@@ -36,9 +32,7 @@ class PegawaiMitraKerjaController extends ResourceController
      */
     public function show($id = null)
     {
-        $data = $this->model->join('prodi_pilihan', 'pegawai_mitra_kerja.prodi_pilihan_id = prodi_pilihan.id')
-            ->find($id);
-        return $this->respond(['message' => 'List of Pegawai Mitra Kerja', 'data' => $data], 200, 'success');
+        //
     }
 
     /**
@@ -48,7 +42,7 @@ class PegawaiMitraKerjaController extends ResourceController
      */
     public function new()
     {
-        return $this->respond(null, 501, 'Not Implemented');
+        //
     }
 
     /**
@@ -58,19 +52,19 @@ class PegawaiMitraKerjaController extends ResourceController
      */
     public function create()
     {
-
         if (strpos($this->request->getHeaderLine('Content-Type'), 'multipart/form-data') === false) {
             // 415 is Unsupported Media Type
             return $this->fail('The request must be a multipart/form-data.', 415);
         }
 
         $rules = [
-            'prodi_pilihan_id' => 'required|is_not_unique[prodi_pilihan.id]',
             'nama' => 'required|string|max_length[255]',
-            'no_tpa_nim' => 'required|string|max_length[255]',
-            'fakultas_terakhir' => 'required|string|max_length[255]',
-            'prodi_terakhir' => 'required|string|max_length[255]',
+            'nim' => 'required|string|max_length[255]',
+            'prodi_pilihan_id' => 'required|is_not_unique[prodi_pilihan.id]',
+            'unit_kerja' => 'required|string|max_length[255]',
+            'pekerjaan_di_ulm_saat_ini' => 'required|string|max_length[255]',
             'no_hp' => 'required|string|max_length[255]',
+            'posisi_semester' => 'required|integer',
             'berkas' => [
                 'label' => 'Berkas',
                 'rules' => 'uploaded[berkas]|max_size[berkas,5120]|ext_in[berkas,pdf,doc,docx,jpg,jpeg,png]',
@@ -82,30 +76,57 @@ class PegawaiMitraKerjaController extends ResourceController
         }
 
         helper(['uuid_helper', 'tahun_ajaran_helper']);
-
         $berkas = $this->request->getFile('berkas');
 
         // The file has already been validated, so we can safely move it.
         $filepath = WRITEPATH . 'uploads/' . $berkas->store();
 
+        // Use a fully qualified name or add `use DateTime;` at the top.
         $date = new DateTime();
 
-        $data = [
-            'id' => uuid(),
-            'prodi_pilihan_id' => $this->request->getPost('prodi_pilihan_id'),
-            'nama' => $this->request->getPost('nama'),
-            'no_tpa_nim' => $this->request->getPost('no_tpa_nim'),
-            'fakultas_terakhir' => $this->request->getPost('fakultas_terakhir'),
-            'prodi_terakhir' => $this->request->getPost('prodi_terakhir'),
-            'no_hp' => $this->request->getPost('no_hp'),
-            'periode_semester' => getPeriodeSemester($date),
-            'tahun_ajaran' => getTahunAjaran($date),
-            'url_berkas' => $filepath,
+        // Load the discount helper
+        helper('discount_helper');
+
+        $prodiModel = new ProdiPilihanModel();
+        $prodi = $prodiModel->find($this->request->getPost('prodi_pilihan_id'));
+        $discount = get_discount($prodi->jenjang, 'alumni_predikat_pujian_ulm');
+        $discount_id = uuid();
+
+        $discount_data = [
+            'id' => $discount_id,
+            'discount_sem_1' => $discount['1'],
+            'discount_sem_2' => $discount['2'],
+            'discount_sem_3' => $discount['3'],
+            'discount_sem_4' => $discount['4'],
+            'discount_sem_5' => $discount['5'],
+            'discount_sem_6' => $discount['6'],
         ];
 
-        $this->model->insert($data);
-        return $this->respondCreated(['message' => 'Pegawai Mitra Kerja created successfully', 'data' => $data], 'success');
+        $discount_model = new DiscountModel();
+        $discount_model->insert($discount_data);
 
+
+        $input = [
+            'id' => uuid(),
+            'nama' => $this->request->getPost('nama'),
+            'nim' => $this->request->getPost('nim'),
+            'prodi_pilihan_id' => $this->request->getPost('prodi_pilihan_id'),
+            'unit_kerja' => $this->request->getPost('unit_kerja'),
+            'pekerjaan_di_ulm_saat_ini' => $this->request->getPost('pekerjaan_di_ulm_saat_ini'),
+            'no_hp' => $this->request->getPost('no_hp'),
+            'posisi_semester' => $this->request->getPost('posisi_semester'),
+            'url_berkas' => $filepath,
+            'periode_semester' => getPeriodeSemester($date),
+            'tahun_ajaran' => getTahunAjaran($date),
+            'created_at' => $date->format('Y-m-d H:i:s'),
+            'updated_at' => $date->format('Y-m-d H:i:s'),
+            'discount_id' => $discount_id
+        ];
+
+        if ($this->model->insert($input) === false) {
+            return $this->failServerError('Gagal menyimpan data ke database.');
+        }
+        return $this->respondCreated(['message' => 'Data berhasil di Tambahkan', 'data' => $input]);
     }
 
     /**
@@ -117,7 +138,7 @@ class PegawaiMitraKerjaController extends ResourceController
      */
     public function edit($id = null)
     {
-        return $this->respond(null, 501, 'Not Implemented');
+        //
     }
 
     /**
@@ -129,7 +150,7 @@ class PegawaiMitraKerjaController extends ResourceController
      */
     public function update($id = null)
     {
-        return $this->respond(null, 501, 'Not Implemented');
+        //
     }
 
     /**
@@ -141,6 +162,6 @@ class PegawaiMitraKerjaController extends ResourceController
      */
     public function delete($id = null)
     {
-        return $this->respond(null, 501, 'Not Implemented');
+        //
     }
 }
