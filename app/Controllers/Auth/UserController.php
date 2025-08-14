@@ -16,7 +16,7 @@ class UserController extends ResourcePresenter
         return view("admin/user/table", ["data" => $data]);
     }
 
-    public function new()
+    public function createView()
     {
         return view('form/upload_form', ['errors' => []]);
     }
@@ -47,13 +47,11 @@ class UserController extends ResourcePresenter
         $filePath = WRITEPATH . 'uploads/' . $file->store();
 
         $input = import_xlsx($filePath);
-        $dataToInsert = [];
-        $time = Time::now();
         foreach ($input as $row) {
             $userModel->save(new User([
                 'username' => $row['no_tpa'],
                 'email' => null,
-                'password' => password_hash($row['password'], PASSWORD_DEFAULT),
+                'password' => $row['password'],
             ]));
         }
 

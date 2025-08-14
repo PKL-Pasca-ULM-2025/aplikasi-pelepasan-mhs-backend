@@ -22,13 +22,13 @@ $routes->setAutoRoute(true);
 // We get a performance increase by specifying the default
 // route since we don't have to scan directories.
 
-service('auth')->routes($routes, ['except' => ['login']]);
+service('auth')->routes($routes, ['namespace' => '\App\Controllers\Auth']);
 $routes->get('/', 'Home::index');
 
 $routes->get('upload', 'UploadController::index');
 $routes->post('upload', 'UploadController::upload');
 
-$routes->addRedirect('login', 'admin/login');
+// $routes->addRedirect('login', 'admin/login');
 
 
 $routes->group('admin', static function ($routes) {
@@ -37,9 +37,9 @@ $routes->group('admin', static function ($routes) {
     $routes->presenter('on-going-pegawai-pelajar', ['controller' => 'Admin\OnGoingPegawaiPelajarPresenter']);
     $routes->presenter('calon-pegawai-pelajar', ['controller' => 'Admin\CalonPegawaiPelajarPresenter']);
     $routes->presenter('pegawai-mitra-kerja', ['controller' => 'Admin\PegawaiMitraKerjaPresenter']);
-    $routes->presenter('user', ['controller' => 'Auth\UserController']);
-    $routes->post('login', 'Auth\LoginController::loginAction');
-    $routes->get('login', 'Auth\LoginController::loginView');
+    $routes->get('user', 'Auth\UserController::index');
+    $routes->get('user/create', 'Auth\UserController::createView');
+    $routes->post('user', 'Auth\UserController::create');
 });
 
 $routes->group('api', static function ($routes) {
@@ -48,6 +48,7 @@ $routes->group('api', static function ($routes) {
     $routes->resource('on-going-pegawai-pelajar', ['controller' => 'Api\OnGoingPegawaiPelajarController', 'only' => ['index', 'create']]);
     $routes->resource('alumni-predikat-pujian-ulm', ['controller' => 'Api\AlumniPredikatPujianULMController', 'only' => ['index', 'create']]);
     $routes->resource('alumni-terbaik-ulm', ['controller' => 'Api\AlumniTerbaikULMController', 'only' => ['index', 'create']]);
+    $routes->post('auth/jwt', 'Auth\LoginController::jwtLogin');
 });
 
 /*

@@ -78,7 +78,7 @@ class Auth extends ShieldAuth
         'login' => '/',
         'logout' => 'login',
         'force_reset' => '/',
-        'permission_denied' => 'admin/login',
+        'permission_denied' => 'login',
         'group_denied' => '/',
     ];
 
@@ -122,7 +122,7 @@ class Auth extends ShieldAuth
         'tokens' => AccessTokens::class,
         'session' => Session::class,
         'hmac' => HmacSha256::class,
-        // 'jwt'     => JWT::class,
+        'jwt' => JWT::class,
     ];
 
     /**
@@ -148,7 +148,7 @@ class Auth extends ShieldAuth
         'session',
         'tokens',
         'hmac',
-        // 'jwt',
+        'jwt',
     ];
 
     /**

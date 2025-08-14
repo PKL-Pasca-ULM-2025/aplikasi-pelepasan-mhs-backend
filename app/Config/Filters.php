@@ -72,7 +72,6 @@ class Filters extends BaseFilters
             // 'honeypot',
             // 'csrf',
             // 'invalidchars',
-            'session' => ['except' => ['api/*', 'auth/*', '*/login*', 'login*']],
         ],
         'after' => [
             // 'honeypot',
@@ -105,6 +104,7 @@ class Filters extends BaseFilters
      * @var array<string, array<string, list<string>>>
      */
     public array $filters = [
-
+        'jwt' => ['before' => ['api', 'api/*']],
+        'session' => ['before' => ['admin/*']],
     ];
 }

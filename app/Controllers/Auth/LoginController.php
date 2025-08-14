@@ -3,14 +3,17 @@
 namespace App\Controllers\Auth;
 
 use App\Controllers\BaseController;
+use CodeIgniter\API\ResponseTrait;
 use CodeIgniter\HTTP\RedirectResponse;
+use CodeIgniter\HTTP\ResponseInterface;
 use CodeIgniter\Shield\Authentication\Authenticators\Session;
 use CodeIgniter\Shield\Traits\Viewable;
 use CodeIgniter\Shield\Validation\ValidationRules;
 
 class LoginController extends BaseController
 {
-    use Viewable;
+
+    use ResponseTrait;
 
     /**
      * Displays the form the login to the site.
@@ -31,7 +34,7 @@ class LoginController extends BaseController
             return redirect()->route('auth-action-show');
         }
 
-        return $this->view('auth/login');
+        return view('auth/login');
     }
 
     /**
@@ -94,5 +97,52 @@ class LoginController extends BaseController
         auth()->logout();
 
         return redirect()->to($url)->with('message', lang('Auth.successLogout'));
+    }
+
+    public function jwtLogin(): ResponseInterface
+    {
+        // Get the validation rules
+        $rules = $this->getValidationRules();
+
+        // Validate credentials
+        if (!$this->validateData($this->request->getJSON(true), $rules, [], config('Auth')->DBGroup)) {
+            return $this->fail(
+                ['errors' => $this->validator->getErrors()],
+                $this->codes['unauthorized']
+            );
+        }
+
+        // Get the credentials for login
+        $credentials = $this->request->getJsonVar(setting('Auth.validFields'));
+        $credentials = array_filter($credentials);
+        $credentials['password'] = $this->request->getJsonVar('password');
+
+        /** @var Session $authenticator */
+        $authenticator = auth('session')->getAuthenticator();
+
+        // Check the credentials
+        $result = $authenticator->check($credentials);
+
+        // Credentials mismatch.
+        if (!$result->isOK()) {
+            // @TODO Record a failed login attempt
+
+            return $this->failUnauthorized($result->reason());
+        }
+
+        // Credentials match.
+        // @TODO Record a successful login attempt
+
+        $user = $result->extraInfo();
+
+        /** @var JWTManager $manager */
+        $manager = service('jwtmanager');
+
+        // Generate JWT and return to client
+        $jwt = $manager->generateToken($user);
+
+        return $this->respond([
+            'access_token' => $jwt,
+        ]);
     }
 }
