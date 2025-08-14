@@ -12,7 +12,7 @@ class AlumniTerbaikULMModel extends Model
     protected $returnType = \App\Entities\AlumniTerbaikULM::class;
     protected $useSoftDeletes = false;
     protected $protectFields = true;
-    protected $allowedFields = ['nama', 'no_tpa_nim', 'prodi_pilihan_id', 'tahun_lulus', 'prodi_terakhir', 'fakultas_terakhir', 'nim_terakhir', 'ipk', 'predikat', 'no_hp', 'url_berkas', 'created_at', 'updated_at', 'sk_dasar'];
+    protected $allowedFields = ['nama', 'no_tpa_nim', 'prodi_pilihan_id', 'tahun_lulus', 'prodi_terakhir', 'fakultas_terakhir', 'nim_terakhir', 'ipk', 'predikat', 'no_hp', 'url_berkas', 'created_at', 'updated_at', 'sk_dasar', 'periode_semester', 'tahun_ajaran', 'discount_id'];
 
     protected bool $allowEmptyInserts = false;
     protected bool $updateOnlyChanged = true;
