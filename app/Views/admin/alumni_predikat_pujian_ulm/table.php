@@ -583,6 +583,24 @@
               <th scope="col" title="Actions column sorting" aria-sort="none" tabindex="0">
                 Tahun Ajaran <span class="sort-indicator">▲</span>
               </th>
+              <th scope="col" title="Actions column sorting" aria-sort="none" tabindex="0">
+                Diskon Semester 1 <span class="sort-indicator">▲</span>
+              </th>
+              <th scope="col" title="Actions column sorting" aria-sort="none" tabindex="0">
+                Diskon Semester 2 <span class="sort-indicator">▲</span>
+              </th>
+              <th scope="col" title="Actions column sorting" aria-sort="none" tabindex="0">
+                Diskon Semester 3 <span class="sort-indicator">▲</span>
+              </th>
+              <th scope="col" title="Actions column sorting" aria-sort="none" tabindex="0">
+                Diskon Semester 4 <span class="sort-indicator">▲</span>
+              </th>
+              <th scope="col" title="Actions column sorting" aria-sort="none" tabindex="0">
+                Diskon Semester 5 <span class="sort-indicator">▲</span>
+              </th>
+              <th scope="col" title="Actions column sorting" aria-sort="none" tabindex="0">
+                Diskon Semester 6 <span class="sort-indicator">▲</span>
+              </th>
               <th scope="col" class="berkas" title="Status column sorting" aria-sort="none" tabindex="0">
                 Berkas <span class="sort-indicator">▲</span>
               </th>
@@ -609,6 +627,12 @@
                   <td><?= $row->sk_dasar ?></td>
                   <td><?= $row->periode_semester ?></td>
                   <td><?= $row->tahun_ajaran ?></td>
+                  <td><?= $row->discount_sem_1 ?></td>
+                  <td><?= $row->discount_sem_2 ?></td>
+                  <td><?= $row->discount_sem_3 ?></td>
+                  <td><?= $row->discount_sem_4 ?></td>
+                  <td><?= $row->discount_sem_5 ?></td>
+                  <td><?= $row->discount_sem_6 ?></td>
                   <td class="berkas"><a class="berkas" href="<?= $row->url_berkas ?>">Buka Berkas</a></td>
                 </tr>
                 <?php

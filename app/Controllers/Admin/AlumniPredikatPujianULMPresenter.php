@@ -18,7 +18,7 @@ class AlumniPredikatPujianULMPresenter extends ResourcePresenter
      */
     public function index()
     {
-        $data = $this->model->join('prodi_pilihan', 'alumni_predikat_pujian_ulm.prodi_pilihan_id = prodi_pilihan.id')
+        $data = $this->model->join('prodi_pilihan', 'alumni_predikat_pujian_ulm.prodi_pilihan_id = prodi_pilihan.id')->join('discount', 'alumni_predikat_pujian_ulm.discount_id = discount.id')
             ->findAll();
         return view('admin/alumni_predikat_pujian_ulm/table', ['data' => $data]);
     }

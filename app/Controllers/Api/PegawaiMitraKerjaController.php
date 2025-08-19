@@ -20,10 +20,31 @@ class PegawaiMitraKerjaController extends ResourceController
      */
     public function index()
     {
-        // Logic to retrieve and return a list of Pegawai Mitra Kerja
-        // This could involve fetching data from a model and returning it as JSON or in a view
-        $data = $this->model->join('prodi_pilihan', 'pegawai_mitra_kerja.prodi_pilihan_id = prodi_pilihan.id')
+        $rows = $this->model
+            ->join('prodi_pilihan', 'pegawai_mitra_kerja.prodi_pilihan_id = prodi_pilihan.id')
             ->findAll();
+
+        $data = [];
+        foreach ($rows as $row) {
+            $data[] = [
+                'id' => $row->id,
+                'nama' => $row->nama,
+                'no_tpa_nim' => $row->no_tpa_nim,
+                'prodi_pilihan_id' => $row->prodi_pilihan_id,
+                'prodi_pilihan' => [
+                    'nama_prodi' => $row->nama_prodi ?? null,
+                    'jenjang' => $row->jenjang ?? null,
+                ],
+                'fakultas_terakhir' => $row->fakultas_terakhir ?? null,
+                'prodi_terakhir' => $row->prodi_terakhir ?? null,
+                'no_hp' => $row->no_hp ?? null,
+                'url_berkas' => $row->url_berkas ?? null,
+                'periode_semester' => $row->periode_semester ?? null,
+                'tahun_ajaran' => $row->tahun_ajaran ?? null,
+                'created_at' => $row->created_at ?? null,
+                'updated_at' => $row->updated_at ?? null,
+            ];
+        }
         return $this->respond(['message' => 'List of Pegawai Mitra Kerja', 'data' => $data], 200, 'success');
     }
 

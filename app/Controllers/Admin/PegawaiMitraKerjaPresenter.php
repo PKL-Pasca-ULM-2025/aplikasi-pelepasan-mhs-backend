@@ -2,12 +2,13 @@
 
 namespace App\Controllers\Admin;
 
+use App\Models\PegawaiMitraKerjaModel;
 use CodeIgniter\HTTP\ResponseInterface;
 use CodeIgniter\RESTful\ResourcePresenter;
 
 class PegawaiMitraKerjaPresenter extends ResourcePresenter
 {
-    protected $modelName = \App\Models\PegawaiMitraKerjaModel::class;
+    protected $modelName = PegawaiMitraKerjaModel::class;
     /**
      * Present a view of resource objects.
      *

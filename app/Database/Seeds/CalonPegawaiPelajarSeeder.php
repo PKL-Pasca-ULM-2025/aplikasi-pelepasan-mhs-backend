@@ -2,6 +2,7 @@
 
 namespace App\Database\Seeds;
 
+use App\Models\DiscountModel;
 use CodeIgniter\Database\Seeder;
 use CodeIgniter\I18n\Time;
 use Faker\Factory;
@@ -17,6 +18,20 @@ class CalonPegawaiPelajarSeeder extends Seeder
         $time = Time::now('utc');
 
         for ($i = 0; $i < 50; $i++) {
+
+            $discount_id = $faker->uuid();
+
+            $discount_data = [
+                'id' => $discount_id,
+                'discount_sem_1' => $faker->randomNumber(),
+                'discount_sem_2' => $faker->randomNumber(),
+                'discount_sem_3' => $faker->randomNumber(),
+                'discount_sem_4' => $faker->randomNumber(),
+                'discount_sem_5' => $faker->randomNumber(),
+                'discount_sem_6' => $faker->randomNumber(),
+            ];
+
+            $this->db->table('discount')->insert($discount_data);
             $data = [
                 'id' => $faker->uuid(),
                 'prodi_pilihan_id' => $faker->randomElement($prodiPilihanId),
@@ -32,6 +47,7 @@ class CalonPegawaiPelajarSeeder extends Seeder
                 'no_hp' => $faker->phoneNumber(),
                 'sk_dasar' => $faker->sentence(),
                 'url_berkas' => $faker->url(),
+                'discount_id' => $discount_id
             ];
             $this->db->table('calon_pegawai_pelajar')->insert($data);
         }

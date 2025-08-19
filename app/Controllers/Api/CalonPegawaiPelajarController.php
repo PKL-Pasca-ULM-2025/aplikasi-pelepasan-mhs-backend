@@ -2,6 +2,7 @@
 
 namespace App\Controllers\Api;
 
+use App\Models\CalonPegawaiPelajarModel;
 use App\Models\DiscountModel;
 use App\Models\ProdiPilihanModel;
 use DateTime;
@@ -10,7 +11,7 @@ use CodeIgniter\RESTful\ResourceController;
 
 class CalonPegawaiPelajarController extends ResourceController
 {
-    protected $modelName = \App\Models\CalonPegawaiPelajarModel::class;
+    protected $modelName = CalonPegawaiPelajarModel::class;
     /**
      * Return an array of resource objects, themselves in array format.
      *
@@ -18,8 +19,41 @@ class CalonPegawaiPelajarController extends ResourceController
      */
     public function index()
     {
-        $data = $this->model->join('prodi_pilihan', 'calon_pegawai_pelajar.prodi_pilihan_id = prodi_pilihan.id')
+        $rows = $this->model
+            ->join('prodi_pilihan', 'calon_pegawai_pelajar.prodi_pilihan_id = prodi_pilihan.id')
+            ->join('discount', 'calon_pegawai_pelajar.discount_id = discount.id')
             ->findAll();
+
+        $data = [];
+        foreach ($rows as $row) {
+            $data[] = [
+                'id' => $row->id,
+                'nama' => $row->nama,
+                'no_tpa_nim' => $row->no_tpa_nim,
+                'prodi_pilihan_id' => $row->prodi_pilihan_id,
+                'prodi_pilihan' => [
+                    'nama_prodi' => $row->nama_prodi ?? null,
+                    'jenjang' => $row->jenjang ?? null,
+                ],
+                'unit_kerja' => $row->unit_kerja ?? null,
+                'pekerjaan_di_ulm_saat_ini' => $row->pekerjaan_di_ulm_saat_ini ?? null,
+                'no_hp' => $row->no_hp ?? null,
+                'url_berkas' => $row->url_berkas ?? null,
+                'periode_semester' => $row->periode_semester ?? null,
+                'tahun_ajaran' => $row->tahun_ajaran ?? null,
+                'created_at' => $row->created_at ?? null,
+                'updated_at' => $row->updated_at ?? null,
+                'discount_id' => $row->discount_id ?? null,
+                'discount' => [
+                    'discount_sem_1' => $row->discount_sem_1 ?? null,
+                    'discount_sem_2' => $row->discount_sem_2 ?? null,
+                    'discount_sem_3' => $row->discount_sem_3 ?? null,
+                    'discount_sem_4' => $row->discount_sem_4 ?? null,
+                    'discount_sem_5' => $row->discount_sem_5 ?? null,
+                    'discount_sem_6' => $row->discount_sem_6 ?? null,
+                ],
+            ];
+        }
         return $this->respond(['message' => 'List Calon Pegawai Pelajar', 'data' => $data], 200, 'OK');
     }
 

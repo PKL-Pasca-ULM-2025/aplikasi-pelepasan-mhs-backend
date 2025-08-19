@@ -104,7 +104,5 @@ class Filters extends BaseFilters
      * @var array<string, array<string, list<string>>>
      */
     public array $filters = [
-        'jwt' => ['before' => ['api', 'api/*']],
-        'session' => ['before' => ['admin/*']],
     ];
 }

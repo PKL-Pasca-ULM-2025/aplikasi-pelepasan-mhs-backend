@@ -9,8 +9,9 @@ use CodeIgniter\HTTP\ResponseInterface;
 use CodeIgniter\Shield\Authentication\Authenticators\Session;
 use CodeIgniter\Shield\Traits\Viewable;
 use CodeIgniter\Shield\Validation\ValidationRules;
+use CodeIgniter\Shield\Controllers\LoginController as ShieldLogin;
 
-class LoginController extends BaseController
+class LoginController extends ShieldLogin
 {
 
     use ResponseTrait;
@@ -80,9 +81,17 @@ class LoginController extends BaseController
      */
     protected function getValidationRules(): array
     {
-        $rules = new ValidationRules();
+        return (new ValidationRules())->getLoginRules();
+    }
 
-        return $rules->getLoginRules();
+    protected function getLoginRules(): array
+    {
+        return (new ValidationRules())->getLoginRules();
+    }
+
+    protected function getLoginJWTRules(): array
+    {
+        return setting('Validation.loginJWT');
     }
 
     /**
@@ -102,7 +111,7 @@ class LoginController extends BaseController
     public function jwtLogin(): ResponseInterface
     {
         // Get the validation rules
-        $rules = $this->getValidationRules();
+        $rules = $this->getLoginJWTRules();
 
         // Validate credentials
         if (!$this->validateData($this->request->getJSON(true), $rules, [], config('Auth')->DBGroup)) {
@@ -125,14 +134,10 @@ class LoginController extends BaseController
 
         // Credentials mismatch.
         if (!$result->isOK()) {
-            // @TODO Record a failed login attempt
-
             return $this->failUnauthorized($result->reason());
         }
 
         // Credentials match.
-        // @TODO Record a successful login attempt
-
         $user = $result->extraInfo();
 
         /** @var JWTManager $manager */
@@ -143,6 +148,23 @@ class LoginController extends BaseController
 
         return $this->respond([
             'access_token' => $jwt,
+        ]);
+    }
+    public function jwtLogout(): ResponseInterface
+    {
+        // Check if the user is logged in
+        if (!auth()->loggedIn()) {
+            return $this->failUnauthorized(lang('Auth.errorNotLoggedIn'));
+        }
+
+        /** @var JWTManager $manager */
+        $manager = service('jwtmanager');
+
+        // Invalidate the JWT token
+        $manager->invalidateToken();
+
+        return $this->respond([
+            'message' => lang('Auth.successLogout'),
         ]);
     }
 }

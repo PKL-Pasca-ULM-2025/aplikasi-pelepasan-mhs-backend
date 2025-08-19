@@ -99,7 +99,7 @@ class AuthJWT extends ShieldJWT
         $this->keys['default'][0] = [
             'kid' => '',      // Key ID. Optional if you have only one key.
             'alg' => 'HS256', // algorithm.
-            'secret' => getenv('JWT_SECRET'),
+            'secret' => getenv('JWT_SECRET_KEY'),
         ];
         $this->defaultClaims['iss'] = base_url(); // Set the issuer to the base URL.
         parent::__construct();

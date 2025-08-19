@@ -5,7 +5,6 @@ use CodeIgniter\Router\RouteCollection;
 /**
  * @var RouteCollection $routes
  */
-// $routes->get('/', 'Home::index');
 $routes->setDefaultNamespace('App\Controllers');
 $routes->setDefaultController('Home');
 $routes->setDefaultMethod('index');
@@ -13,25 +12,34 @@ $routes->setTranslateURIDashes(false);
 $routes->set404Override();
 $routes->setAutoRoute(true);
 
-/*
- * --------------------------------------------------------------------
- * Route Definitions
- * --------------------------------------------------------------------
+/**
+ * ---------------------------------------------------------------
+ * Konfigurasi Rute Aplikasi
+ * ---------------------------------------------------------------
+ *
+ * File ini mendefinisikan semua rute untuk aplikasi, termasuk:
+ * 
+ * - Rute autentikasi menggunakan layanan 'auth'.
+ * - Rute halaman utama.
+ * - Rute upload file (GET untuk form, POST untuk aksi upload).
+ * 
+ * Grup Admin:
+ * - Rute presenter resourceful untuk mengelola data alumni dan pegawai/mahasiswa.
+ * - Rute manajemen user (daftar, tampilan pembuatan, dan aksi pembuatan).
+ * 
+ * Grup API:
+ * - Rute resource RESTful untuk data pegawai/mitra kerja dan alumni (hanya index dan create).
+ * - Endpoint autentikasi JWT untuk login API.
+ *
+ * Setiap grup menggunakan namespace dan controller yang sesuai untuk organisasi.
  */
-
-// We get a performance increase by specifying the default
-// route since we don't have to scan directories.
-
 service('auth')->routes($routes, ['namespace' => '\App\Controllers\Auth']);
 $routes->get('/', 'Home::index');
 
 $routes->get('upload', 'UploadController::index');
 $routes->post('upload', 'UploadController::upload');
 
-// $routes->addRedirect('login', 'admin/login');
-
-
-$routes->group('admin', static function ($routes) {
+$routes->group('admin', ['filter' => 'session'], static function ($routes) {
     $routes->presenter('alumni-terbaik-ulm', ['controller' => 'Admin\AlumniTerbaikULMPresenter']);
     $routes->presenter('alumni-predikat-pujian-ulm', ['controller' => 'Admin\AlumniPredikatPujianULMPresenter']);
     $routes->presenter('on-going-pegawai-pelajar', ['controller' => 'Admin\OnGoingPegawaiPelajarPresenter']);
@@ -42,14 +50,15 @@ $routes->group('admin', static function ($routes) {
     $routes->post('user', 'Auth\UserController::create');
 });
 
-$routes->group('api', static function ($routes) {
+$routes->group('api', ['filter' => 'jwt'], static function ($routes) {
     $routes->resource('pegawai-mitra-kerja', ['controller' => 'Api\PegawaiMitraKerjaController', 'only' => ['index', 'create']]);
     $routes->resource('calon-pegawai-pelajar', ['controller' => 'Api\CalonPegawaiPelajarController', 'only' => ['index', 'create']]);
     $routes->resource('on-going-pegawai-pelajar', ['controller' => 'Api\OnGoingPegawaiPelajarController', 'only' => ['index', 'create']]);
     $routes->resource('alumni-predikat-pujian-ulm', ['controller' => 'Api\AlumniPredikatPujianULMController', 'only' => ['index', 'create']]);
     $routes->resource('alumni-terbaik-ulm', ['controller' => 'Api\AlumniTerbaikULMController', 'only' => ['index', 'create']]);
-    $routes->post('auth/jwt', 'Auth\LoginController::jwtLogin');
 });
+
+$routes->post('auth/jwt', 'Auth\LoginController::jwtLogin');
 
 /*
  * --------------------------------------------------------------------

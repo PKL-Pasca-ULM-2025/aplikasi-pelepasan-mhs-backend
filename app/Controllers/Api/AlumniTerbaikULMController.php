@@ -21,8 +21,45 @@ class AlumniTerbaikULMController extends ResourceController
      */
     public function index()
     {
-        $data = $this->model->join('prodi_pilihan', 'alumni_terbaik_ulm.prodi_pilihan_id = prodi_pilihan.id')
+        $rows = $this->model
+            ->join('prodi_pilihan', 'alumni_terbaik_ulm.prodi_pilihan_id = prodi_pilihan.id')
+            ->join('discount', 'alumni_terbaik_ulm.discount_id = discount.id')
             ->findAll();
+
+        $data = [];
+        foreach ($rows as $row) {
+            $data[] = [
+                'id' => $row->id,
+                'nama' => $row->nama,
+                'no_tpa_nim' => $row->no_tpa_nim,
+                'prodi_pilihan_id' => $row->prodi_pilihan_id,
+                'prodi_pilihan' => [
+                    'jenjang' => $row->jenjang ?? null,
+                ],
+                'tahun_lulus' => $row->tahun_lulus ?? null,
+                'prodi_terakhir' => $row->prodi_terakhir ?? null,
+                'fakultas_terakhir' => $row->fakultas_terakhir ?? null,
+                'nim_terakhir' => $row->nim_terakhir ?? null,
+                'ipk' => $row->ipk ?? null,
+                'predikat' => $row->predikat ?? null,
+                'no_hp' => $row->no_hp ?? null,
+                'sk_dasar' => $row->sk_dasar ?? null,
+                'url_berkas' => $row->url_berkas ?? null,
+                'periode_semester' => $row->periode_semester ?? null,
+                'tahun_ajaran' => $row->tahun_ajaran ?? null,
+                'created_at' => $row->created_at ?? null,
+                'updated_at' => $row->updated_at ?? null,
+                'discount_id' => $row->discount_id ?? null,
+                'discount' => [
+                    'discount_sem_1' => $row->discount_sem_1 ?? null,
+                    'discount_sem_2' => $row->discount_sem_2 ?? null,
+                    'discount_sem_3' => $row->discount_sem_3 ?? null,
+                    'discount_sem_4' => $row->discount_sem_4 ?? null,
+                    'discount_sem_5' => $row->discount_sem_5 ?? null,
+                    'discount_sem_6' => $row->discount_sem_6 ?? null,
+                ],
+            ];
+        }
         return $this->respond(['message' => 'List Alumni Terbaik ULM', 'data' => $data], 200, 'OK');
     }
 

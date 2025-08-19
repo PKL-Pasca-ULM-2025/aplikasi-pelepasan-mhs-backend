@@ -3,6 +3,7 @@
 namespace App\Controllers\Api;
 
 use App\Models\DiscountModel;
+use App\Models\OnGoingPegawaiPelajarModel;
 use App\Models\ProdiPilihanModel;
 use DateTime;
 use CodeIgniter\HTTP\ResponseInterface;
@@ -10,7 +11,7 @@ use CodeIgniter\RESTful\ResourceController;
 
 class OnGoingPegawaiPelajarController extends ResourceController
 {
-    protected $modelName = \App\Models\OnGoingPegawaiPelajarModel::class;
+    protected $modelName = OnGoingPegawaiPelajarModel::class;
     /**
      * Return an array of resource objects, themselves in array format.
      *
@@ -18,8 +19,34 @@ class OnGoingPegawaiPelajarController extends ResourceController
      */
     public function index()
     {
-        $data = $this->model->join('prodi_pilihan', 'on_going_pegawai_pelajar.prodi_pilihan_id = prodi_pilihan.id')
+        $rows = $this->model
+            ->join('prodi_pilihan', 'on_going_pegawai_pelajar.prodi_pilihan_id = prodi_pilihan.id')
             ->findAll();
+
+        $data = [];
+        foreach ($rows as $row) {
+            $data[] = [
+                'id' => $row->id,
+                'nama' => $row->nama,
+                'nim' => $row->nim,
+                'prodi_pilihan_id' => $row->prodi_pilihan_id,
+                'prodi_pilihan' => [
+                    'nama_prodi' => $row->nama_prodi ?? null,
+                    'jenjang' => $row->jenjang ?? null,
+                ],
+                'unit_kerja' => $row->unit_kerja ?? null,
+                'pekerjaan_di_ulm_saat_ini' => $row->pekerjaan_di_ulm_saat_ini ?? null,
+                'no_hp' => $row->no_hp ?? null,
+                'posisi_semester' => $row->posisi_semester ?? null,
+                'url_berkas' => $row->url_berkas ?? null,
+                'periode_semester' => $row->periode_semester ?? null,
+                'tahun_ajaran' => $row->tahun_ajaran ?? null,
+                'created_at' => $row->created_at ?? null,
+                'updated_at' => $row->updated_at ?? null,
+                'discount_id' => $row->discount_id ?? null,
+                // Add discount fields if joined
+            ];
+        }
         return $this->respond(['message' => 'List On Going Pegawai Pelajar', 'data' => $data], 200, 'OK');
     }
 

@@ -21,8 +21,46 @@ class AlumniPredikatPujianULMController extends ResourceController
      */
     public function index()
     {
-        $data = $this->model->join('prodi_pilihan', 'alumni_predikat_pujian_ulm.prodi_pilihan_id = prodi_pilihan.id')
+        $rows = $this->model
+            ->join('prodi_pilihan', 'alumni_predikat_pujian_ulm.prodi_pilihan_id = prodi_pilihan.id')
+            ->join('discount', 'alumni_predikat_pujian_ulm.discount_id = discount.id')
             ->findAll();
+
+        $data = [];
+        foreach ($rows as $row) {
+            $data[] = [
+                'id' => $row->id,
+                'nama' => $row->nama,
+                'no_tpa_nim' => $row->no_tpa_nim,
+                'prodi_pilihan_id' => $row->prodi_pilihan_id,
+                'prodi_pilihan' => [
+                    'nama_prodi' => $row->nama_prodi,
+                    'jenjang' => $row->jenjang,
+                ],
+                'tahun_lulus' => $row->tahun_lulus,
+                'prodi_terakhir' => $row->prodi_terakhir,
+                'fakultas_terakhir' => $row->fakultas_terakhir,
+                'nim_terakhir' => $row->nim_terakhir,
+                'ipk' => $row->ipk,
+                'predikat' => $row->predikat,
+                'no_hp' => $row->no_hp,
+                'sk_dasar' => $row->sk_dasar,
+                'url_berkas' => $row->url_berkas,
+                'periode_semester' => $row->periode_semester,
+                'tahun_ajaran' => $row->tahun_ajaran,
+                'discount_id' => $row->discount_id,
+                'discount' => [
+                    'discount_sem_1' => $row->discount_sem_1,
+                    'discount_sem_2' => $row->discount_sem_2,
+                    'discount_sem_3' => $row->discount_sem_3,
+                    'discount_sem_4' => $row->discount_sem_4,
+                    'discount_sem_5' => $row->discount_sem_5,
+                    'discount_sem_6' => $row->discount_sem_6,
+                ],
+                'created_at' => $row->created_at,
+                'updated_at' => $row->updated_at,
+            ];
+        }
         return $this->respond(['message' => 'List Alumni Predikat Pujian ULM', 'data' => $data], 200, 'OK');
     }
 
